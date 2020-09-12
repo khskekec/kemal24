@@ -7,18 +7,18 @@
 //     ...db,
 //     knex
 // };
-
+import dotEnv from 'dotenv';
 import Sequelize from "sequelize";
 import sk2 from 'sk2';
 
 const db = {};
 const Op = Sequelize.Op;
 const sequelize = new Sequelize({
-    database: 'kemal24',
-    username: 'root',
-    password: 'root',
+    database: process.env.DB_DATABASE,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     dialect: 'mysql',
-    host: '127.0.0.1',
+    host: process.env.DB_HOST,
     port: 3306,
     pool: {
         max: 10,
