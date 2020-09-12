@@ -1,3 +1,4 @@
+import './src/services/dotenv';
 import server from './src/server.js';
 
-server.listen(3010);
+server.listen(process.env.PORT);
