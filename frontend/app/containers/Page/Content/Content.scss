@@ -1,0 +1,9 @@
+@import '../Navbar/Navbar';
+
+main {
+  width: 100%;
+  min-height: calc(100vh - #{$navbar-height});
+  max-height: calc(100vh - #{$navbar-height});
+  overflow-y: auto;
+}
+

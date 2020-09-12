@@ -1,0 +1,42 @@
+{
+  "name": "kemal24-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node index.js",
+    "migrate": "cd src && sequelize-cli db:migrate",
+    "migrate-undo": "cd src && sequelize-cli db:migrate:undo",
+    "migrate-status": "cd src && sequelize-cli db:migrate:status",
+    "rebuild-db": "cd src && sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-throw-expressions": "^7.10.4",
+    "@babel/preset-env": "^7.11.5",
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.2.0"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^9.4.0",
+    "concurrency-logger": "^2.1.0",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compress": "^5.0.1",
+    "koa-logger": "^3.2.1",
+    "koa-response-time": "^2.1.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.5",
+    "sk2": "^1.1.1",
+    "winston": "^3.3.3"
+  }
+}

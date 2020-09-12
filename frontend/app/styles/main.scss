@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
+.form-control-xxl {
+  @extend .form-control-lg;
+  font-size: 5rem !important;
+}
+
+@each $name, $color in $theme-colors {
+  .color-#{$name} {
+    color: $color;
+  }
+}
+
+$font-weights: 100,200,300,400,500,600,700,800,900;
+@each $weight in $font-weights {
+  .font-weight-#{$weight} {font-weight: $weight;}
+}
+
+$text-sizes: 1,1.5,2,2.5,3,3.5,4,4.5,5,6,6.5,7,7.5;
+@each $text-size in $text-sizes {
+  .text-size-#{$text-size} {
+    font-size: #{$text-size}rem !important;
+  }
+}
+

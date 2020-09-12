@@ -1,0 +1,73 @@
+@import '../Navbar/Navbar';
+@import '~bootstrap';
+@import 'styles/variables';
+
+$sidebar-text-color: white;
+$sidebar-width: ($logo-margin*2)+$logo-width;
+aside {
+  background-color: $brand-primary-color;
+  color: $sidebar-text-color;
+  width: $sidebar-width;
+  max-width: $sidebar-width;
+  min-height: calc(100vh - #{$navbar-height});
+  max-height: calc(100vh - #{$navbar-height});
+  overflow-y: auto;
+  -webkit-box-shadow: 6px 2px 38px -5px rgba(0,0,0,0.6);
+  -moz-box-shadow: 6px 2px 38px -5px rgba(0,0,0,0.6);
+  box-shadow: 6px 2px 38px -5px rgba(0,0,0,0.6);
+  transition: all 1s ease-out;
+
+  &.sidebar-hide {
+    max-width: 0px;
+    transition: all 1s ease-out;
+
+    ul li {
+      opacity: 0;
+      transition: all 0.2s ease-out;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 0;
+    min-height: 100%;
+    font-size: .8rem;
+
+    li {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      height: 120px;
+      cursor: pointer;
+      opacity: 1;
+      transition: opacity 2s ease-out, color 1s ease-out, background-color 1s ease-out;
+
+      &:hover {
+        background-color: $brand-highlight-color;
+      }
+
+      &.version {
+        margin-top: auto;
+        height: auto;
+
+        &:hover {
+          background-color: inherit !important;
+        }
+      }
+
+      i {
+        font-size: 2rem;
+        margin-bottom: .5rem;
+      }
+
+      &.active {
+        background-color: white !important;
+        color: $brand-primary-color;
+      }
+    }
+  }
+}

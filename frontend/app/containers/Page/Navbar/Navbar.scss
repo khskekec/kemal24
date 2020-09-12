@@ -1,0 +1,70 @@
+@import '~bootstrap/scss/bootstrap';
+@import 'styles/variables';
+
+$navbar-height: 5rem;
+$logo-margin: 2rem;
+$logo-width: 6rem;
+$navbar-text-color: $text-muted;
+
+@mixin box-shadowX($params) {
+  -webkit-box-shadow: $params;
+  -moz-box-shadow: $params;
+  box-shadow: $params;
+}
+
+header {
+  height: 5rem;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding-left: $logo-margin;
+  padding-right: $logo-margin;
+  $shadow: 0 1px 15px rgba(0,0,0,.04), 0 1px 6px rgba(0,0,0,.04);
+  @include box-shadowX($shadow);
+  color: $text-muted;
+
+  .logo {
+    width: $logo-width;
+    text-align: center;
+    margin-right: $logo-margin;
+    color: $brand-primary-color;
+    font-weight: 900;
+    font-size: 2.5rem;
+  }
+
+  .toggle {
+    cursor: pointer;
+    display: none !important;
+
+    @include media-breakpoint-down(xs) {
+      display: flex !important;
+    }
+
+    div {
+      width: 24px;
+      height: 1px;
+      background: #47404f;
+      margin: 3px 0;
+      line-height: 1.6;
+    }
+  }
+
+  .page-header {
+    // See https://stackoverflow.com/questions/33444666/how-to-center-align-one-flex-item-and-right-align-another-using-flexbox
+    flex: 0 1 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+  }
+
+  .actions {
+    margin-left: auto;
+
+    span {
+      margin: 5px;
+    }
+
+    margin-right: 1rem;
+  }
+}
