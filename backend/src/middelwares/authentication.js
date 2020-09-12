@@ -6,13 +6,16 @@ export default async (ctx, next) => {
         const payload = jwt.verify(token);
 
         ctx.state.user = await ctx.db().User.findByPk(payload.id);
-
-        await next();
     } catch (e) {
+        console.error(e);
         ctx.status = 401;
         ctx.body = {
             type: 'CORE_ERROR',
-            message: 'Unable to autenthicate.'
+            message: 'Unable to authenticate.'
         }
+
+        return;
     }
+
+    await next();
 }

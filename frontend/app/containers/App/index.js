@@ -22,6 +22,7 @@ import DashboardPage from '../DashboardPage';
 import EventPage from '../EventPage';
 import { selectors, actions } from './redux';
 import LoginPage from '../LoginPage';
+import EventModification from "../EventPage/EventModification";
 export default function App() {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectors.currentUser);
@@ -48,7 +49,8 @@ export default function App() {
           <Switch>
             <Route exact path="/" component={NotFoundPage} />
             <Route path="/calculator" component={CalculatorPage} />
-            <Route path="/events" component={EventPage} />
+            <Route exact path="/events" component={EventPage} />
+            <Route exact path='/events/create' component={EventModification}/>
             <Route
               path="/correction-calculator"
               component={CorrectionCalculatorPage}

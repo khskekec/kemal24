@@ -4,56 +4,43 @@
  * This is the first thing users see of our App, at the '/' route
  */
 
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  Fragment
+} from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
+import {Helmet} from 'react-helmet';
+import BaseTable, {AutoResizer, Column} from 'react-base-table';
 import axios from '../../utils/axios';
-import EventDetails from './EventDetails';
+import Table from "./Table";
+import { push } from 'connected-react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import {Route} from "react-router-dom";
 
 const key = 'event';
 
 const EventPage = () => {
-  const [eventTypes, setEventTypes] = useState(null);
-  const [eventType, setEventType] = useState(1);
-
+  const [events, setEvents] = useState(null);
+  const dispatch = useDispatch();
   useEffect(() => {
-    (async () => {
-      const response = await axios.get('/event/types');
-
-      setEventTypes(response.data);
-    })();
+    getData();
   }, []);
 
-  if (!eventTypes) return null;
+  const getData =  async () => setEvents((await axios.get('/event')).data);
+  const onEventDelete =  async id => {
+    await axios.delete('/event/' + id);
+    await getData();
+  }
 
-  console.log(eventType);
-  return (
-    <div>
-      <Helmet>
-        <title>Dashboard</title>
-        <meta
-          name="description"
-          content="A React.js Boilerplate application homepage"
-        />
-      </Helmet>
-      <div className="container-fluid pt-3">
-        <div className="row">
-          <div className="col">
-            <select
-              className="form-control"
-              value={eventType}
-              onChange={e => setEventType(e.target.value)}
-            >
-              {eventTypes.map(e => (
-                <option value={e.id}>{e.title}</option>
-              ))}
-            </select>
-            <br />
-            {eventType && <EventDetails type={eventType} />}
-          </div>
-        </div>
-      </div>
-    </div>
+  if (events === null) {
+    return '';
+  }
+
+  return (<Fragment>
+      <Table events={events} onActionDelete={onEventDelete}/>
+      <a href='javascript:void(0)' onClick={() => dispatch(push('/events/create'))} style={{position: 'absolute', bottom: '1rem', right: '1rem'}}><i className='color-brand bg-white fa fa-4x fa-plus-circle color-primary border-radius-5' /></a>
+    </Fragment>
   );
 };
 

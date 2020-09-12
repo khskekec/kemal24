@@ -5,6 +5,7 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~react-base-table/lib/BaseTable";
 
 .form-control-xxl {
   @extend .form-control-lg;
@@ -17,6 +18,14 @@
   }
 }
 
+.color-brand {
+  color: $brand-primary-color;
+}
+
+.bg-brand {
+  background-color: $brand-primary-color;
+}
+
 $font-weights: 100,200,300,400,500,600,700,800,900;
 @each $weight in $font-weights {
   .font-weight-#{$weight} {font-weight: $weight;}
@@ -27,5 +36,17 @@ $text-sizes: 1,1.5,2,2.5,3,3.5,4,4.5,5,6,6.5,7,7.5;
   .text-size-#{$text-size} {
     font-size: #{$text-size}rem !important;
   }
+}
+
+@each $text-size in $text-sizes {
+  .border-radius-#{$text-size} {
+    border-radius: #{$text-size}rem !important;
+  }
+}
+
+.shadow {
+  -webkit-box-shadow: -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
+  -moz-box-shadow:    -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
+  box-shadow:         -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
 }
 

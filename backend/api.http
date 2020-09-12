@@ -35,11 +35,49 @@ Content-Type: application/json
     "typeId": 1,
     "start": "2020-12-20 00:00:00",
     "end": "2020-12-20 00:00:01"
+  },
+  {
+    "title": "Test 01",
+    "value": 30.5,
+    "typeId": 1,
+    "start": "2020-12-20 00:00:00",
+    "end": "2020-12-20 00:00:01"
+  },
+  {
+    "title": "Test 01",
+    "value": 30.5,
+    "typeId": 1,
+    "start": "2020-12-20 00:00:00",
+    "end": "2020-12-20 00:00:01"
+  },
+  {
+    "title": "Test 01",
+    "value": 30.5,
+    "typeId": 1,
+    "start": "2020-12-20 00:00:00",
+    "end": "2020-12-20 00:00:01"
+  },
+  {
+    "title": "Test 01",
+    "value": 30.5,
+    "typeId": 1,
+    "start": "2020-12-20 00:00:00",
+    "end": "2020-12-20 00:00:01"
+  },
+  {
+    "title": "Test 01",
+    "value": 30.5,
+    "typeId": 1,
+    "start": "2020-12-20 00:00:00",
+    "end": "2020-12-20 00:00:01"
   }
 ]
 
 ###
 
+DELETE http://localhost:3010/api/v1/event/1
+
+###
 # ******************************* #
 #             TEST
 # ******************************* #
@@ -51,3 +89,15 @@ Accept: application/json
 
 GET http://localhost:3010/api/v1/testMe
 Accept: application/json
+
+###
+POST http://localhost:3010/api/v1/user
+Content-Type: application/json
+
+{
+  "firstName": "Halime",
+  "lastName": "Kekec",
+  "email": "khskekec@gmail.com",
+  "userName": "hkekec",
+  "password": "Kemal123"
+}

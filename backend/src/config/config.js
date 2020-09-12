@@ -1,4 +1,5 @@
 const dotEnv = require('dotenv');
+dotEnv.config({ path: __dirname + '/../../.env' });
 
 module.exports = {
   "development": {

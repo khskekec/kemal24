@@ -68,6 +68,16 @@ header {
 
     margin-right: 1rem;
   }
+
+  .avatar {
+    border-radius: 3px;
+    padding: .3rem;
+    cursor: pointer;
+    &:hover {
+      background-color: $brand-primary-color;
+      color: white;
+    }
+  }
 }
 
 @include media-breakpoint-down(sm) {

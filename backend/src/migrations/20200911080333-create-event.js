@@ -32,6 +32,9 @@ module.exports = {
             meta: {
                 type: Sequelize.JSON
             },
+            description: {
+                type: Sequelize.TEXT
+            },
             creatorId: {
                 type: Sequelize.INTEGER,
                 references: {

@@ -4,6 +4,7 @@ import './Navbar.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectors } from './redux';
 import { actions } from '../Sidebar/redux';
+import { actions as appActions } from '../../App/redux';
 
 const Navbar = () => {
   const pageHeader = useSelector(selectors.pageHeader);
@@ -22,18 +23,18 @@ const Navbar = () => {
       </div>
       <div className="page-header">{pageHeader}</div>
       <div className="actions">
-        <span>
-          <i className="fa fa-bell" />
-        </span>
-        <span>
-          <i className="fa fa-bell" />
-        </span>
-        <span>
-          <i className="fa fa-bell" />
-        </span>
+        {/*<span>*/}
+        {/*  <i className="fa fa-bell" />*/}
+        {/*</span>*/}
+        {/*<span>*/}
+        {/*  <i className="fa fa-bell" />*/}
+        {/*</span>*/}
+        {/*<span>*/}
+        {/*  <i className="fa fa-bell" />*/}
+        {/*</span>*/}
       </div>
-      <div className="avatar">
-        <i className="fa-2x fal fa-power-off" />
+      <div className="avatar" onClick={() => dispatch(appActions.logout())}>
+        <i className="fas fa-power-off" style={{fontSize: '1.5rem'}}></i>
       </div>
     </header>
   );

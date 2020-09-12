@@ -8,7 +8,8 @@ import { actions } from '../Navbar/redux';
 import { selectors } from './redux';
 
 const Sidebar = props => {
-  const currentPage = useSelector(state => state.router.location.pathname);
+  const currentPage = useSelector(state => '/' + state.router.location.pathname.split('/')[1]);
+  console.log(currentPage);
   const sidebarVisibility = useSelector(selectors.sidebar);
 
   const dispatch = useDispatch();

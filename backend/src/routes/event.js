@@ -40,6 +40,10 @@ router.post('/', async ctx => {
     ctx.body = responses;
 });
 
+router.delete('/:id', async ctx => {
+    ctx.body = await ctx.db().knex('Events').where('id', ctx.params.id).del();
+})
+
 export default mainRouter => {
     mainRouter.use('/event', router.routes({throw: true}), router.allowedMethods({throw: true}));
 }

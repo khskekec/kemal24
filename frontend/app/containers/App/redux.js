@@ -8,11 +8,13 @@ const ac = actionTypeCreator('AUTH');
 
 const actionTypes = {
   SET_CURRENT_USER: ac('SET_CURRENT_USER'),
+  LOGOUT: ac('LOGOUT'),
 };
 
 const actions = {
   setCurrentUser: user =>
     actionCreator(actionTypes.SET_CURRENT_USER, { payload: user }),
+  logout: () => actionCreator(actionTypes.LOGOUT, {  }),
 };
 
 export const globalSelector = state => state.global;
@@ -57,6 +59,10 @@ const reducer = (state = initialState, action) =>
         break;
       case actionTypes.SET_CURRENT_USER:
         draft.currentUser = action.payload;
+        break;
+      case actionTypes.LOGOUT:
+        draft.currentUser = null;
+        localStorage.removeItem('jwt');
     }
   });
 

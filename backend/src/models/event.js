@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     end: DataTypes.DATE,
     value: DataTypes.FLOAT,
     meta: DataTypes.JSON,
+    description: DataTypes.TEXT,
     creatorId: DataTypes.INTEGER
   }, {
     sequelize,
