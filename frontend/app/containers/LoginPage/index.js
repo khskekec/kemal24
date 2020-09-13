@@ -6,8 +6,8 @@ import { actions } from '../App/redux';
 import "./Login.scss";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
   const loginHandler = async () => {
