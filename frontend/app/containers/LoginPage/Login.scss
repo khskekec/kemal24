@@ -1,0 +1,26 @@
+@import 'styles/embedable';
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: $brand-highlight-color;
+  .login-logo {
+    display: flex;
+    align-items: flex-end;
+    background-color: white;
+    height: 30%;
+    color: $brand-primary-color;
+    text-shadow: 4px 4px 5px rgba(150, 150, 150, 0.5);
+    text-align: center;
+    justify-content: center;
+  }
+
+  .form-container {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
