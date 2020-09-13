@@ -16,7 +16,7 @@ app.use(cors({
 }));
 
 app.use(errorHandler((err, ctx) => {
-    ctx.status = ctx.status < 400 ? 500 : ctx.status;
+    ctx.status = err.status || 500;
 
     ctx.body = {
         type: 'CORE_ERROR',
@@ -24,6 +24,21 @@ app.use(errorHandler((err, ctx) => {
         stack: err.stack
     }
 }));
+
+// app.use(async (ctx, next) => {
+//     try {
+//         await next();
+//     } catch (err) {
+//         ctx.status = err.status || 500;
+//         ctx.body = {
+//             type: 'CORE_ERROR',
+//             message: err.message,
+//             stack: err.stack
+//         };
+//
+//         ctx.app.emit('error', err, ctx);
+//     }
+// });
 
 // Log requests into console
 app.use(requestLogger());
