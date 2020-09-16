@@ -12,13 +12,11 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import axios from '../../utils/axios';
 import moment from 'moment';
+import Bolus from "./types/Bolus";
 
 const EventModification = () => {
-  const [start, setStart] = useState(moment().format('YYYY-MM-DDTHH:mm:ss'));
-  const [end, setEnd] = useState(moment().format('YYYY-MM-DDTHH:mm:ss'));
-  const [value, setValue] = useState(0);
-  const [eventTypes, setEventTypes] = useState(null);
-  const [eventType, setEventType] = useState(1);
+  const [eventTypes, setEventTypes] = useState([]);
+  const [eventType, setEventType] = useState('BLOOD_SUGAR');
 
   useEffect(() => {
     (async () => {
@@ -45,76 +43,25 @@ const EventModification = () => {
   };
 
   return (
-    <form className="row g-3 p-3 m-3 card shadow-lg">
-      <div className="col-12">
-        <label htmlFor="inputEventType" className="form-label">
-          Event Type
-        </label>
-        <select
-          className="form-control"
-          value={eventType}
-          onChange={e => setEventType(e.target.value)}
-        >
-          {eventTypes.map(e => (
-            <option value={e.id}>{e.title}</option>
-          ))}
-        </select>
-      </div>
-      <div className="col">
-        <label htmlFor="inputStart" className="form-label">
-          Start
-        </label>
-        <input
-          id="inputStart"
-          type="datetime-local"
-          className="form-control"
-          value={start}
-          onChange={e => setStart(e.target.value)}
-        />
-      </div>
-      {[8].indexOf(parseInt(eventType)) != -1 && (
-        <div className="col">
-          <label htmlFor="inputEnd" className="form-label">
-            End
-          </label>
-          <input
-            id="inputEnd"
-            type="datetime-local"
-            className="form-control"
-            value={end}
-            onChange={e => setEnd(e.target.value)}
-          />
+    <div className='container-fluid mt-3'>
+      <div className='row justify-content-center mb-3'>
+        <div className='col-md-4 col-sm-12'>
+          <div className='card shadow-lg'>
+            <div className='card-header'>
+              Choose Event Type
+            </div>
+            <div className='card-body'>
+              <select className="form-select" aria-label="" onChange={e => setEventType(e.target.value)}>
+                {eventTypes.map(e => <option value={e.constant}>{e.title}</option>)}
+              </select>
+            </div>
+          </div>
         </div>
-      )}
-      <div className="col-12">
-        <label htmlFor="inputValue" className="form-label">
-          Value
-        </label>
-        <input
-          type="number"
-          id='inputValue'
-          className="form-control"
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          placeholder="Value..."
-        />
       </div>
-      <div className="col-12">
-        <label htmlFor="inputValue" className="form-label">
-          Description
-        </label>
-        <textarea className='form-control'></textarea>
+      <div className='row'>
+        <Bolus />
       </div>
-      <div className="col-12">
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={saveHandler}
-        >
-          Create
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };
 

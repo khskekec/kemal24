@@ -14,3 +14,15 @@
   box-shadow:         -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
 }
 
+.image-fullscreen-container {
+  position: fixed;
+  top: $navbar-height !important;
+  left: 0;
+  background-color: rgba(0,0,0,.75);
+  z-index: 998;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  overflow-y: auto;
+}

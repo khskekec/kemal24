@@ -92,6 +92,7 @@
     "react-base-table": "^1.11.3",
     "react-dom": "16.8.6",
     "react-helmet": "6.0.0-beta",
+    "react-hook-form": "^6.8.2",
     "react-intl": "2.8.0",
     "react-redux": "7.2.1",
     "react-router-dom": "5.0.0",
