@@ -27,8 +27,13 @@ export const factorConfiguration = [
   },
 ];
 
+export function getFactorConfiguration(factorId) {
+  const result = factorConfiguration.filter(item => item.id === factorId);
+
+  return result.length ? result[0] : null;
+}
+
 export function getFactorValue(factorId) {
-  console.log(factorConfiguration.filter(item => item.id === factorId));
   const result = factorConfiguration.filter(item => item.id === factorId);
 
   return result.length ? result[0].factor : 0;
