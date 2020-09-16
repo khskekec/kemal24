@@ -1,4 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {
+  useState,
+  useEffect
+} from 'react';
 import PropTypes from 'prop-types';
 import {useForm} from "react-hook-form";
 import classnames from 'classnames';
@@ -178,7 +181,6 @@ const Bolus = () => {
   const timeOption = watch('timeOption');
   const mealOptions = watch(['mealTitle', 'mealCarbs', 'mealWeight']);
   const mealPortionOptions = watch(['mealPortionTitle', 'mealPortionCarbs']);
-  const mealSearch = watch('mealSearch');
   const manualBolus = watch('manualBolus');
 
   const mealsTable = <table className='table align-middle'>
@@ -209,7 +211,7 @@ const Bolus = () => {
         <td>{e.ke}</td>
       </tr>
     ) : <tr>
-      <td colSpan={5}>No data available</td>
+      <td colSpan={6}>No data available</td>
     </tr>}
     </tbody>
     {
@@ -227,16 +229,12 @@ const Bolus = () => {
   </table>
 
   return <div className='col'>
-    <div className={classnames({'card': true, 'shadow-lg': true, 'd-none': showSearch})}>
-      <div className='card-header'>
-        Bolus
-      </div>
-      <div className='card-body'>
-        <form className="row g-3" onSubmit={handleSubmit(onSubmit)}>
+    <form className={ classnames({'d-none': showSearch}) } onSubmit={handleSubmit(onSubmit)}>
+      <div className='col-12 card shadow-lg mb-3'>
+        <div className='card-header'>Time</div>
+        <div className='card-body'>
           <div className="col-md-12">
-            <label htmlFor="validationCustom01" className="form-label">Time</label>
-
-            <div className='col-4 offset-4'>
+            <div className='col-10 offset-1 text-center'>
               <div className="btn-group">
                 <input type="radio" className="btn-check" name="timeOption" id="option1" autoComplete="off"
                        value="automatic" defaultChecked ref={register()}/>
@@ -251,90 +249,99 @@ const Bolus = () => {
             <input type="datetime-local" className="form-control" name="start" id="validationCustom01"
                    ref={register()} disabled={timeOption !== 'manual'}/>
           </div>
-          <hr/>
-          <h2>Meal</h2>
-          <hr/>
-          <ul className="nav nav-pills mb-3 flex-column flex-sm-row" id="pills-tab" role="tablist">
-            <li className="nav-item flex-sm-fill text-sm-center " role="presentation">
-              <a className="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                 aria-controls="pills-home" aria-selected="true">Per 100g</a>
-            </li>
-            <li className="nav-item flex-sm-fill text-sm-center " role="presentation">
-              <a className="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                 aria-controls="pills-profile" aria-selected="false">Portion</a>
-            </li>
-            <li className="nav-item flex-sm-fill text-sm-center " role="presentation">
-              <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-                 aria-controls="pills-contact" aria-selected="false">Search</a>
-            </li>
-          </ul>
-          <hr/>
-          <div className="tab-content" id="pills-tabContent">
-            <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
-                 aria-labelledby="pills-home-tab">
-              <div className='row'>
-                <div className="col-md-4 mb-3">
-                  <label htmlFor="mealTitle" className="form-label">Title</label>
-                  <input type="input" className="form-control" id="mealTitle" name='mealTitle' ref={register()}/>
-                </div>
-                <div className="col-md-4 mb-3">
-                  <label htmlFor="mealCarbs" className="form-label">Carbs 100g</label>
-                  <input type="number" className="form-control" id="mealCarbs" name='mealCarbs' ref={register()}/>
-                </div>
-                <div className="col-md-4 mb-3">
-                  <label htmlFor="mealWeight" className="form-label">Weight</label>
-                  <input type="number" className="form-control" id="mealWeight" name='mealWeight' ref={register()}/>
-                </div>
-                <div className="col-12 mb-5 col-md-4 offset-md-4">
-                  <button className='btn btn-primary btn-block' onClick={addMeal}
-                          disabled={!mealOptions || Object.values(mealOptions).filter(e => !e).length}>
-                    <i className='fa fa-plus-circle'></i> Add
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="tab-pane fade" id="pills-profile" role="tabpanel"
-                 aria-labelledby="pills-profile-tab">
-              <div className='row'>
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="mealTitle" className="form-label">Title</label>
-                  <input type="input" className="form-control" id="mealPortionTitle" name='mealPortionTitle'
-                         ref={register()}/>
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label htmlFor="mealCarbs" className="form-label">Carbs per Portion</label>
-                  <input type="number" className="form-control" id="mealPortionCarbs" name='mealPortionCarbs'
-                         ref={register()}/>
-                </div>
-                <div className="col-12 mb-5 col-md-4 offset-md-4">
-                  <button className='btn btn-primary btn-block' onClick={addPortionMeal}
-                          disabled={!mealPortionOptions || Object.values(mealPortionOptions).filter(e => !e).length}>
-                    <i className='fa fa-plus-circle'></i> Add
-                  </button>
+        </div>
+      </div>
+      <div className='col-12 card shadow-lg mb-3'>
+        <div className='card-header'>Meal</div>
+        <div className='card-body'>
+          <div className="col-md-12">
+            <ul className="nav nav-pills mb-3 flex-column flex-sm-row" id="pills-tab" role="tablist">
+              <li className="nav-item flex-sm-fill text-sm-center " role="presentation">
+                <a className="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                   aria-controls="pills-home" aria-selected="true">Per 100g</a>
+              </li>
+              <li className="nav-item flex-sm-fill text-sm-center " role="presentation">
+                <a className="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                   aria-controls="pills-profile" aria-selected="false">Portion</a>
+              </li>
+              <li className="nav-item flex-sm-fill text-sm-center " role="presentation">
+                <a className="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+                   aria-controls="pills-contact" aria-selected="false">Search</a>
+              </li>
+            </ul>
+            <hr/>
+            <div className="tab-content" id="pills-tabContent">
+              <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
+                   aria-labelledby="pills-home-tab">
+                <div className='row'>
+                  <div className="col-md-4 mb-3">
+                    <label htmlFor="mealTitle" className="form-label">Title</label>
+                    <input type="input" className="form-control" id="mealTitle" name='mealTitle' ref={register()}/>
+                  </div>
+                  <div className="col-md-4 mb-3">
+                    <label htmlFor="mealCarbs" className="form-label">Carbs 100g</label>
+                    <input type="number" className="form-control" id="mealCarbs" name='mealCarbs' ref={register()}/>
+                  </div>
+                  <div className="col-md-4 mb-3">
+                    <label htmlFor="mealWeight" className="form-label">Weight</label>
+                    <input type="number" className="form-control" id="mealWeight" name='mealWeight' ref={register()}/>
+                  </div>
+                  <div className="col-12 col-md-4 offset-md-4">
+                    <button className='btn btn-primary btn-block' onClick={addMeal}
+                            disabled={!mealOptions || Object.values(mealOptions).filter(e => !e).length}>
+                      <i className='fa fa-plus-circle'></i> Add
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="tab-pane fade" id="pills-contact" role="tabpanel"
-                 aria-labelledby="pills-contact-tab">
-              <div className='row mb-3'>
-                <div className='col-10'>
-                  <input type="text" id="mealSearch" name="mealSearch" placeholder='Enter search term...'
-                         className='form-control' defaultValue='' ref={register()}/>
+              <div className="tab-pane fade" id="pills-profile" role="tabpanel"
+                   aria-labelledby="pills-profile-tab">
+                <div className='row'>
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="mealTitle" className="form-label">Title</label>
+                    <input type="input" className="form-control" id="mealPortionTitle" name='mealPortionTitle'
+                           ref={register()}/>
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="mealCarbs" className="form-label">Carbs per Portion</label>
+                    <input type="number" className="form-control" id="mealPortionCarbs" name='mealPortionCarbs'
+                           ref={register()}/>
+                  </div>
+                  <div className="col-12 col-md-4 offset-md-4">
+                    <button className='btn btn-primary btn-block' onClick={addPortionMeal}
+                            disabled={!mealPortionOptions || Object.values(mealPortionOptions).filter(e => !e).length}>
+                      <i className='fa fa-plus-circle'></i> Add
+                    </button>
+                  </div>
                 </div>
-                <div className='col-2'>
-                  <button className='btn btn-primary btn-block' onClick={search}><i className='fa fa-search'/></button>
+              </div>
+              <div className="tab-pane fade" id="pills-contact" role="tabpanel"
+                   aria-labelledby="pills-contact-tab">
+                <div className='row mb-3'>
+                  <div className='col-10'>
+                    <input type="text" id="mealSearch" name="mealSearch" placeholder='Enter search term...'
+                           className='form-control' defaultValue='' ref={register()}/>
+                  </div>
+                  <div className='col-2'>
+                    <button className='btn btn-primary btn-block' onClick={search}><i className='fa fa-search'/>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className='col-12 table-responsive'>
-            {mealsTable}
-          </div>
-          <hr/>
-          <h2>Bolus</h2>
-          <hr/>
+        </div>
+      </div>
+      <div className='col-12'>
+        <div className='table-responsive'>
+        {mealsTable}
+        </div>
+      </div>
+      <div className='card shadow-lg mb-3'>
+        <div className='card-header'>Bolus</div>
+        <div className='card-body'>
           <div className='row'>
-            <div className='col-6'>
+            <div className='col-12 col-md-6'>
               <h1>
                 Standard Bolus
               </h1>
@@ -356,11 +363,12 @@ const Bolus = () => {
                 </div>
                 <div className='col-6'>
                   <div className='alert alert-success text-center'>
-                    <h1>{ currentBloodSugar ? currentBloodSugar.value : 'N/A'}</h1>
+                    <h1>{currentBloodSugar ? currentBloodSugar.value : 'N/A'}</h1>
                     <h5>Blood Sugar</h5>
 
-                    { currentBloodSugar && <span className='badge bg-primary' style={{position: 'absolute', top: '-3px', right: '-3px'}}><i
-                      className='far fa-clock'/> {round(currentBloodSugar.minutesAgo)} minutes ago</span> }
+                    {currentBloodSugar &&
+                    <span className='badge bg-primary' style={{position: 'absolute', top: '-3px', right: '-3px'}}><i
+                      className='far fa-clock'/> {round(currentBloodSugar.minutesAgo)} minutes ago</span>}
                   </div>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? injectionMealInterval(currentBloodSugar.value) + ' mins' : 'N/A'}</h1>
@@ -375,7 +383,7 @@ const Bolus = () => {
                 </div>
               </div>
             </div>
-            <div className='col-6'>
+            <div className='col-12 col-md-6'>
               <div className='col-auto align-self-center pl-2'>
                 <h1>
                   Manual Bolus
@@ -384,29 +392,25 @@ const Bolus = () => {
                   <label htmlFor="mealTitle" className="form-label">Bolus</label>
                   <input type='number' className='form-control' id="manualBolus" name='manualBolus' ref={register()}/>
                 </div>
-                <div className='alert alert-info mt-5'>
+                <div className={classnames('alert', 'alert-info', 'mt-5', {'d-none': meals.length === 0 || manualBolus.length === 0})}>
                   Deviation: {100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100} %
                 </div>
               </div>
             </div>
-            <div className='col-12'>
+            <div className='col-12 mt-4'>
               <div className='row'>
                 <div className='col-6'>
-                  <button className='btn btn-primary btn-block'>Standard Bolus</button>
+                  <button className='btn btn-primary btn-block' disabled={meals.length === 0}>Standard Bolus</button>
                 </div>
                 <div className='col-6'>
-                  <button className='btn btn-primary btn-block'>Manual Bolus</button>
+                  <button className='btn btn-primary btn-block' disabled={meals.length === 0 || manualBolus.length === 0}>Manual Bolus</button>
                 </div>
               </div>
             </div>
           </div>
-          <hr/>
-          <div className="col-12">
-            <button className="btn btn-primary" type="submit">Submit form</button>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </form>
     {searchContainer}
   </div>
 };
