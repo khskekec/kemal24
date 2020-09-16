@@ -34,7 +34,7 @@ export function getFactorValue(factorId) {
   return result.length ? result[0].factor : 0;
 }
 
-export function calculateFactor(configuration) {
+export function calculateFactor(configuration = factorConfiguration) {
   const matches = configuration.filter(conf => {
     const current = moment(new Date(), 'HH:mm');
     const start = moment(conf.start, 'HH:mm');
