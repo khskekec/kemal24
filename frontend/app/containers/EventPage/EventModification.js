@@ -45,10 +45,10 @@ const EventModification = () => {
   return (
     <div className='container-fluid mt-3'>
       <div className='row justify-content-center mb-3'>
-        <div className='col-md-4 col-sm-12'>
+        <div className='col-12'>
           <div className='card shadow-lg'>
             <div className='card-header'>
-              Choose Event Type
+              Event type
             </div>
             <div className='card-body'>
               <select className="form-select" aria-label="" onChange={e => setEventType(e.target.value)}>

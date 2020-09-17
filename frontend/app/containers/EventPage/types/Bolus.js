@@ -17,8 +17,51 @@ import axios from "../../../utils/axios";
 
 const Bolus = () => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
-  const onSubmit = data => console.log(data);
-  const [meals, setMeals] = useState([]);
+  const onSubmit = async (...args) => {
+    const values = getValues();
+    const data = {
+      start: timeOption === 'automatic' ? (new Date()).toISOString() : values.start,
+      typeId: 'BOLUS',
+      title: null,
+      bolusType,
+      originBolus: meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()),
+      value: bolusType === 'automatic' ?  meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()) : parseFloat(manualBolus),
+      meta: {
+        factor: getFactorValue(calculateFactor()),
+        meals: meals,
+        totalCarbs: meals.reduce((total, e) => total + e.carbs, 0),
+        totalKe: meals.reduce((total, e) => total + e.ke, 0)
+      },
+      description: values.description
+    };
+
+    const response = await axios.post('/event', data);
+
+    console.log(response);
+  };
+  const [meals, setMeals] = useState([
+    {
+      title: 'Magnum Eis',
+      carbs: 15,
+      weight: 0,
+      type: 'Portion',
+      ke: 1.5
+    },
+    {
+      title: 'Magnum Eis',
+      carbs: 15,
+      weight: 0,
+      type: 'Portion',
+      ke: 1.5
+    },
+    {
+      title: 'Magnum Eis',
+      carbs: 15,
+      weight: 0,
+      type: 'Portion',
+      ke: 1.5
+    }
+  ]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -85,7 +128,7 @@ const Bolus = () => {
     setSearchLoading(true);
     setShowSearch(true);
     const values = getValues();
-    const response = await axiosInstance.get('/food/search', {params: {search: values.mealSearch}});
+    const response = await axios.get('/food/search', {params: {search: values.mealSearch}});
 
     setSearchLoading(false);
     setSearchResults(response.data);
@@ -182,6 +225,7 @@ const Bolus = () => {
   const mealOptions = watch(['mealTitle', 'mealCarbs', 'mealWeight']);
   const mealPortionOptions = watch(['mealPortionTitle', 'mealPortionCarbs']);
   const manualBolus = watch('manualBolus');
+  const bolusType = watch('bolusType');
 
   const mealsTable = <table className='table align-middle'>
     <thead className='table-dark'>
@@ -208,7 +252,7 @@ const Bolus = () => {
         <td>{e.carbs}g</td>
         <td>{e.weight}g</td>
         <td>{e.type}</td>
-        <td>{e.ke}</td>
+        <td>{round(e.ke)}</td>
       </tr>
     ) : <tr>
       <td colSpan={6}>No data available</td>
@@ -222,7 +266,7 @@ const Bolus = () => {
         <th>{meals.reduce((total, e) => total + e.carbs, 0)}g</th>
         <th>{meals.reduce((total, e) => total + e.weight, 0)}g</th>
         <th></th>
-        <th>{meals.reduce((total, e) => total + e.ke, 0)} Units</th>
+        <th>{round(meals.reduce((total, e) => total + e.ke, 0))} Units</th>
       </tr>
       </tfoot>
     }
@@ -337,16 +381,13 @@ const Bolus = () => {
         {mealsTable}
         </div>
       </div>
-      <div className='card shadow-lg mb-3'>
+      <div className={ classnames('card', 'shadow-lg', 'mb-3', { 'd-none': meals.length === 0 })}>
         <div className='card-header'>Bolus</div>
         <div className='card-body'>
           <div className='row'>
-            <div className='col-12 col-md-6'>
-              <h1>
-                Standard Bolus
-              </h1>
+            <div className='col-12'>
               <div className='row'>
-                <div className='col-6'>
+                <div className='col-3'>
                   <div className='alert alert-primary text-center col-auto'>
                     <h1>{getFactorValue(calculateFactor())}</h1>
                     <span className='badge bg-primary' style={{
@@ -356,12 +397,14 @@ const Bolus = () => {
                     }}>{getFactorConfiguration(calculateFactor()).start} - {getFactorConfiguration(calculateFactor()).end} </span>
                     <h5>Factor</h5>
                   </div>
+                </div>
+                <div className='col-3'>
                   <div className='alert alert-primary text-center'>
                     <h1>{round(meals.reduce((total, e) => total + e.ke, 0))}</h1>
                     <h5>KEs</h5>
                   </div>
                 </div>
-                <div className='col-6'>
+                <div className='col-3'>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? currentBloodSugar.value : 'N/A'}</h1>
                     <h5>Blood Sugar</h5>
@@ -370,44 +413,50 @@ const Bolus = () => {
                     <span className='badge bg-primary' style={{position: 'absolute', top: '-3px', right: '-3px'}}><i
                       className='far fa-clock'/> {round(currentBloodSugar.minutesAgo)} minutes ago</span>}
                   </div>
+                </div>
+                <div className='col-3'>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? injectionMealInterval(currentBloodSugar.value) + ' mins' : 'N/A'}</h1>
                     <h5>Injection-Meal-Distance</h5>
                   </div>
                 </div>
                 <div className='col-12'>
-                  <div className='alert alert-success text-center'>
-                    <h1>{round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()))}</h1>
+                  <div className='alert alert-info text-center'>
+                    <h1>{round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()))} Units</h1>
                     <h5>Bolus</h5>
                   </div>
                 </div>
               </div>
             </div>
-            <div className='col-12 col-md-6'>
-              <div className='col-auto align-self-center pl-2'>
-                <h1>
-                  Manual Bolus
-                </h1>
-                <div>
-                  <label htmlFor="mealTitle" className="form-label">Bolus</label>
-                  <input type='number' className='form-control' id="manualBolus" name='manualBolus' ref={register()}/>
-                </div>
-                <div className={classnames('alert', 'alert-info', 'mt-5', {'d-none': meals.length === 0 || manualBolus.length === 0})}>
-                  Deviation: {100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100} %
+            <div className='col-12'>
+              <div className='col-10 offset-1 text-center'>
+                <div className="btn-group">
+                  <input type="radio" className="btn-check" name="bolusType" id="bolusTypeOption1" autoComplete="off"
+                         value="automatic" defaultChecked ref={register()}/>
+                  <label className="btn btn-secondary" htmlFor="bolusTypeOption1">Automatic</label>
+
+                  <input type="radio" className="btn-check" name="bolusType" id="bolusTypeOption2" autoComplete="off"
+                         value="manual" ref={register()}/>
+                  <label className="btn btn-secondary" htmlFor="bolusTypeOption2">Manual</label>
                 </div>
               </div>
-            </div>
-            <div className='col-12 mt-4'>
-              <div className='row'>
-                <div className='col-6'>
-                  <button className='btn btn-primary btn-block' disabled={meals.length === 0}>Standard Bolus</button>
-                </div>
-                <div className='col-6'>
-                  <button className='btn btn-primary btn-block' disabled={meals.length === 0 || manualBolus.length === 0}>Manual Bolus</button>
-                </div>
+              <div className={classnames('mb-3', { 'd-none': bolusType === 'automatic' })}>
+                <label htmlFor="manualBolus" className="form-label">Bolus</label>
+                <input type='number' className='form-control' id="manualBolus" name='manualBolus' step="0.01" defaultValue='' ref={register()}/>
+              </div>
+              <div className={classnames('alert', 'alert-info', 'mt-5', {'d-none': meals.length === 0 || (manualBolus && manualBolus.length) === 0 || bolusType === 'automatic'})}>
+                <h4>You are entering a manual bolus</h4>
+                Deviation: {100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100} %
+              </div>
+              <div>
+                <label htmlFor="mealTitle" className="form-label">Description</label>
+                <textarea className='form-control' name='description' id='description' ref={register()}></textarea>
               </div>
             </div>
           </div>
+        </div>
+        <div className='card-footer'>
+          <button className='btn btn-primary btn-block'>Create</button>
         </div>
       </div>
     </form>
