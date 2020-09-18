@@ -11,12 +11,17 @@ import React, {
 import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import axios from '../../utils/axios';
-import moment from 'moment';
 import Bolus from "./types/Bolus";
+import BloodSugar from "./types/BloodSugar";
+import BodyHeight from "./types/BodyHeight";
+import BodyWeight from "./types/BodyWeight";
+import HeartRate from "./types/HeartRate";
+import CorrectionBolus from "./types/CorrectionBolus";
+import CorrectionMeal from "./types/CorrectionMeal";
 
 const EventModification = () => {
   const [eventTypes, setEventTypes] = useState([]);
-  const [eventType, setEventType] = useState('BLOOD_SUGAR');
+  const [eventType, setEventType] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -28,19 +33,30 @@ const EventModification = () => {
 
   if (!eventTypes) return null;
 
-  const saveHandler = async () => {
-    const response = await axios.post('/event', {
-      title: null,
-      value,
-      typeId: eventType,
-      start,
-      end: start,
-    });
+  let eventComponent = <div className='col-12'><div className='alert alert-info'>Please select an event type...</div></div>;
 
-    if (response.status === 200) {
-      alert('Event was created');
-    }
-  };
+  switch(eventType) {
+    case 'BLOOD_SUGAR':
+      eventComponent = <BloodSugar />;
+      break;
+    case 'BOLUS':
+      eventComponent = <Bolus />;
+      break;
+    case 'BODY_HEIGHT':
+      eventComponent = <BodyHeight />
+      break;
+    case 'BODY_WEIGHT':
+      eventComponent = <BodyWeight />
+      break;
+    case 'HEART_RATE':
+      eventComponent = <HeartRate />
+      break;
+    case 'CORRECTION_BOLUS':
+      eventComponent = <CorrectionBolus />
+      break;
+    case 'CORRECTION_MEAL':
+      eventComponent = <CorrectionMeal />
+  }
 
   return (
     <div className='container-fluid mt-3'>
@@ -52,6 +68,7 @@ const EventModification = () => {
             </div>
             <div className='card-body'>
               <select className="form-select" aria-label="" onChange={e => setEventType(e.target.value)}>
+                <option value={null}>-</option>
                 {eventTypes.map(e => <option value={e.constant}>{e.title}</option>)}
               </select>
             </div>
@@ -59,7 +76,7 @@ const EventModification = () => {
         </div>
       </div>
       <div className='row'>
-        <Bolus />
+        {eventComponent}
       </div>
     </div>
   );

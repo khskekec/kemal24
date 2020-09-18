@@ -32,6 +32,9 @@ module.exports = {
             meta: {
                 type: Sequelize.JSON
             },
+            attachments: {
+                type: Sequelize.JSON
+            },
             description: {
                 type: Sequelize.TEXT
             },

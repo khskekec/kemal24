@@ -22,7 +22,7 @@ module.exports = {
             },
             {
                 title: 'Heart Rate',
-                unit: 'mg/dl',
+                unit: 'ppm',
                 constant: 'HEART_RATE',
                 createdAt: new Date(),
                 updatedAt: new Date(),
@@ -42,13 +42,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                title: 'Meal',
-                unit: 'g',
-                constant: 'MEAL',
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-            {
                 title: 'Bolus',
                 unit: 'Units',
                 constant: 'BOLUS',
@@ -59,6 +52,13 @@ module.exports = {
                 title: 'Correction Bolus',
                 unit: 'Units',
                 constant: 'CORRECTION_BOLUS',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                title: 'Correction Meal',
+                unit: 'Units',
+                constant: 'CORRECTION_MEAL',
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },

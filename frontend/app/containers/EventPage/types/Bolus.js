@@ -14,9 +14,12 @@ import injectionMealInterval from "../../../utils/injectionMealInterval";
 import axiosInstance from "../../../utils/axios";
 import {round} from "../../../utils/misc";
 import axios from "../../../utils/axios";
+import {push} from "connected-react-router";
+import {useDispatch} from "react-redux";
 
 const Bolus = () => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
+  const dispatch = useDispatch();
   const onSubmit = async (...args) => {
     const values = getValues();
     const data = {
@@ -35,33 +38,15 @@ const Bolus = () => {
       description: values.description
     };
 
-    const response = await axios.post('/event', data);
+    try {
+      const response = await axios.post('/event', data);
 
-    console.log(response);
-  };
-  const [meals, setMeals] = useState([
-    {
-      title: 'Magnum Eis',
-      carbs: 15,
-      weight: 0,
-      type: 'Portion',
-      ke: 1.5
-    },
-    {
-      title: 'Magnum Eis',
-      carbs: 15,
-      weight: 0,
-      type: 'Portion',
-      ke: 1.5
-    },
-    {
-      title: 'Magnum Eis',
-      carbs: 15,
-      weight: 0,
-      type: 'Portion',
-      ke: 1.5
+      dispatch(push('/events'));
+    } catch(e) {
+      alert(e);
     }
-  ]);
+  };
+  const [meals, setMeals] = useState([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
