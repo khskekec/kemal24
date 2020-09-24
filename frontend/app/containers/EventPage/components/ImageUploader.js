@@ -41,7 +41,7 @@ const ImageUploader = ({onChange}) => {
     <div className='col-12'>
       <div>
         <input type='file' onChange={add} ref={fileInput} className='d-none' accept="image/*"/>
-        <button className='btn btn-primary btn-block' onClick={() => fileInput.current.click()}>Upload Image or take a photo</button>
+        <button className='btn btn-primary btn-block' onClick={() => fileInput.current.click()} type="button">Upload Image or take a photo</button>
       </div>
       <br />
       { store.length > 0 ? store.map((e,i) => <div  key={i} className='col row shadow-lg bg-gradient m-2'>
@@ -53,7 +53,7 @@ const ImageUploader = ({onChange}) => {
           <span className='badge bg-info'>{e.type}</span>
         </div>
         <div className='col align-self-center text-right'>
-          <button className='btn btn-danger' onClick={() => remove(i)}><i className='fa fa-trash' /></button>
+          <button className='btn btn-danger' onClick={() => remove(i)} type="button"><i className='fa fa-trash' /></button>
         </div>
       </div>) : <div className='alert alert-info'>Please upload some images</div>}
     </div>

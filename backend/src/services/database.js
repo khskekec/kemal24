@@ -1,15 +1,8 @@
-// import db from '../models/index';
-// import sk2 from 'sk2';
-//
-// const knex = sk2(db.sequelize);
-//
-// export default {
-//     ...db,
-//     knex
-// };
 import dotEnv from 'dotenv';
 import Sequelize from "sequelize";
 import sk2 from 'sk2';
+
+dotEnv.config();
 
 const db = {};
 const Op = Sequelize.Op;

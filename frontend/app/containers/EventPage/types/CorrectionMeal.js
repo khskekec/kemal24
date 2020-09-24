@@ -144,7 +144,7 @@ const CorrectionMeal = () => {
                   </div>
                 </td> : <td></td>}
                 <td>
-                  <button className='btn btn-primary btn-block' onClick={() => addMeal(i)}><i className='fa fa-plus' /></button>
+                  <button className='btn btn-primary btn-block' onClick={() => addMeal(i)} type="button"><i className='fa fa-plus' /></button>
                 </td>
               </tr>
             }) }
@@ -174,7 +174,7 @@ const CorrectionMeal = () => {
               <td>{e.nettoCarbs}</td>
               <td>{e.amount}</td>
               <td>{e.ke}</td>
-              <td><button className='btn btn-danger' onClick={() => deleteMeal(i)}><i className='fa fa-trash' /></button> </td>
+              <td><button className='btn btn-danger' onClick={() => deleteMeal(i)} type="button"><i className='fa fa-trash' /></button> </td>
             </tr>)}
             </tbody>
           </table> :

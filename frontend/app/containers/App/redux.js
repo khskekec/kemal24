@@ -40,7 +40,7 @@ export const initialState = {
     repositories: false,
   },
   pageHeader: null,
-  sidebarVisibility: true,
+  sidebarVisibility: localStorage.hasOwnProperty("sidebar") ? JSON.parse(localStorage.getItem('sidebar')) : true,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -56,6 +56,7 @@ const reducer = (state = initialState, action) =>
 
       case sidebarActionTypes.TOGGLE_SIDEBAR_VISIBILITY:
         draft.sidebarVisibility = !state.sidebarVisibility;
+        localStorage.setItem('sidebar', JSON.stringify(!state.sidebarVisibility));
         break;
       case actionTypes.SET_CURRENT_USER:
         draft.currentUser = action.payload;

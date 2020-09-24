@@ -38,6 +38,9 @@ module.exports = {
             description: {
                 type: Sequelize.TEXT
             },
+            origin: {
+                type: Sequelize.TEXT
+            },
             creatorId: {
                 type: Sequelize.INTEGER,
                 references: {

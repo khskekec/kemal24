@@ -14,6 +14,7 @@ import injectionMealInterval from "../../../utils/injectionMealInterval";
 import axiosInstance from "../../../utils/axios";
 import {round} from "../../../utils/misc";
 import axios from "../../../utils/axios";
+import ImageUploader from "../components/ImageUploader";
 import {push} from "connected-react-router";
 import {useDispatch} from "react-redux";
 
@@ -35,6 +36,7 @@ const Bolus = () => {
         totalCarbs: meals.reduce((total, e) => total + e.carbs, 0),
         totalKe: meals.reduce((total, e) => total + e.ke, 0)
       },
+      attachments: files,
       description: values.description
     };
 
@@ -53,6 +55,7 @@ const Bolus = () => {
   const [showImageContainer, setShowImageContainer] = useState(false);
   const [imageContainerData, setImageContainerData] = useState([]);
   const [currentBloodSugar, setCurrentBloodSugar] = useState(null);
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -131,7 +134,7 @@ const Bolus = () => {
         Search <button onClick={() => {
         setShowSearch(false);
         setSearchResults([])
-      }}>Close</button>
+      }} type="button">Close</button>
       </div>
       <div className='card-body'>
         {searchLoading && <div>Loading</div>}
@@ -144,7 +147,7 @@ const Bolus = () => {
                 {/*<img src={e.image.ingredients} width='100' height='100'/>*/}
                 {/*<img src={e.image.nutrition} width='100' height='100'/>*/}
                 <button className='btn btn-primary btn-block mt-2'
-                        onClick={() => showImages(Object.values(e.image))}>Show images
+                        onClick={() => showImages(Object.values(e.image))} type="button">Show images
                 </button>
               </div>
               <div className='col-auto mt-sm-5 mt-md-0 col-md-10'>
@@ -178,7 +181,7 @@ const Bolus = () => {
                                ref={register()}/>
                       </td>
                       <td>
-                        <button className='btn btn-primary' onClick={() => addSearchMeal(index, e)}>Add</button>
+                          <button className='btn btn-primary' onClick={() => addSearchMeal(index, e)} type="button">Add</button>
                       </td>
                     </tr>
                     </tbody>
@@ -231,7 +234,7 @@ const Bolus = () => {
             const newMeals = [...meals];
             newMeals.splice(i, 1)
             setMeals(newMeals);
-          }}><i className='fa fa-trash'/></button>
+          }} type="button"><i className='fa fa-trash'/></button>
         </td>
         <td>{e.title}</td>
         <td>{e.carbs}g</td>
@@ -281,6 +284,12 @@ const Bolus = () => {
         </div>
       </div>
       <div className='col-12 card shadow-lg mb-3'>
+        <div className='card-header'>Attachments</div>
+        <div className='card-body'>
+          <ImageUploader onChange={setFiles} />
+        </div>
+      </div>
+      <div className='col-12 card shadow-lg mb-3'>
         <div className='card-header'>Meal</div>
         <div className='card-body'>
           <div className="col-md-12">
@@ -317,7 +326,7 @@ const Bolus = () => {
                   </div>
                   <div className="col-12 col-md-4 offset-md-4">
                     <button className='btn btn-primary btn-block' onClick={addMeal}
-                            disabled={!mealOptions || Object.values(mealOptions).filter(e => !e).length}>
+                      disabled={!mealOptions || Object.values(mealOptions).filter(e => !e).length} type="button">
                       <i className='fa fa-plus-circle'></i> Add
                     </button>
                   </div>
@@ -338,7 +347,7 @@ const Bolus = () => {
                   </div>
                   <div className="col-12 col-md-4 offset-md-4">
                     <button className='btn btn-primary btn-block' onClick={addPortionMeal}
-                            disabled={!mealPortionOptions || Object.values(mealPortionOptions).filter(e => !e).length}>
+                      disabled={!mealPortionOptions || Object.values(mealPortionOptions).filter(e => !e).length} type="button">
                       <i className='fa fa-plus-circle'></i> Add
                     </button>
                   </div>
@@ -352,7 +361,7 @@ const Bolus = () => {
                            className='form-control' defaultValue='' ref={register()}/>
                   </div>
                   <div className='col-2'>
-                    <button className='btn btn-primary btn-block' onClick={search}><i className='fa fa-search'/>
+                    <button className='btn btn-primary btn-block' onClick={search} type="button"><i className='fa fa-search'/>
                     </button>
                   </div>
                 </div>

@@ -33,6 +33,8 @@ module.exports = {
                 end: (new Date()),
                 value: '10',
                 creatorId: user,
+                createdAt: new Date(),
+                updatedAt: new Date(),
             }
         ], {});
     },

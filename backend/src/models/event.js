@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     meta: DataTypes.JSON,
     attachments: DataTypes.JSON,
     description: DataTypes.TEXT,
+    origin: DataTypes.TEXT,
     creatorId: DataTypes.INTEGER
   }, {
     sequelize,
