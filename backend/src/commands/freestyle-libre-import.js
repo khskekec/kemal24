@@ -29,4 +29,4 @@ const importCSV = async ({fileName}) => {
     }
 }
 
-importCSV({fileName: '/home/selcuk/Downloads/KemalKekec_glucose_24-9-2020.csv'}).then(e => process.exit())
+importCSV({fileName: '/home/selcuk/Downloads/KemalKekec_glucose_26-9-2020.csv'}).then(e => process.exit())

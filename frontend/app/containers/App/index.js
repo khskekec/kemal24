@@ -23,6 +23,11 @@ import EventPage from '../EventPage';
 import { selectors, actions } from './redux';
 import LoginPage from '../LoginPage';
 import EventModification from "../EventPage/EventModification";
+import BloodSugarPage from "../BloodSugarPage";
+import DailyAvg from "../BloodSugarPage/DailyAvg";
+import HourlyAvg from "../BloodSugarPage/HourlyAvg";
+import DailyHourlyAvg from "../BloodSugarPage/DailyHourlyAvg";
+import Chart from "../BloodSugarPage/Chart";
 export default function App() {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectors.currentUser);
@@ -54,6 +59,26 @@ export default function App() {
             <Route
               path="/correction-calculator"
               component={CorrectionCalculatorPage}
+            />
+            <Route
+              path="/blood-sugar/chart"
+              component={Chart}
+            />
+            <Route
+              path="/blood-sugar/daily-hourly-avg"
+              component={DailyHourlyAvg}
+            />
+            <Route
+              path="/blood-sugar/daily-avg"
+              component={DailyAvg}
+            />
+            <Route
+              path="/blood-sugar/hourly-avg"
+              component={HourlyAvg}
+            />
+            <Route
+              path="/blood-sugar"
+              component={BloodSugarPage}
             />
             <Route path="" component={NotFoundPage} />
           </Switch>

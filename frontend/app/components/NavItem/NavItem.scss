@@ -1,0 +1,12 @@
+@import "app/styles/embedable";
+
+.navItem {
+  cursor: pointer;
+  &:hover {
+    background-color: grey !important;
+
+    & .card-img i {
+      color: white !important;
+    }
+  }
+}

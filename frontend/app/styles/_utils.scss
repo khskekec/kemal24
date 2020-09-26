@@ -13,6 +13,10 @@
   color: $brand-primary-color;
 }
 
+.color-white {
+  color: white !important;
+}
+
 .bg-brand {
   background-color: $brand-primary-color;
 }
@@ -33,4 +37,24 @@ $text-sizes: 1,1.5,2,2.5,3,3.5,4,4.5,5,6,6.5,7,7.5;
   .border-radius-#{$text-size} {
     border-radius: #{$text-size}rem !important;
   }
+}
+
+.bg-4 {
+  background-color: #cc3300 !important;
+}
+
+.bg-3 {
+  background-color: #ff9966 !important;
+}
+
+.bg-2 {
+  background-color: #ffcc00 !important;
+}
+
+.bg-1 {
+  background-color: #99cc33 !important;
+}
+
+.bg-0 {
+  background-color: #339900 !important;
 }

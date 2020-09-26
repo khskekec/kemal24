@@ -66,6 +66,8 @@
   "dependencies": {
     "@babel/polyfill": "7.4.3",
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "@nivo/heatmap": "^0.62.0",
+    "@nivo/line": "^0.62.0",
     "axios": "^0.20.0",
     "bootstrap": "^5.0.0-alpha1",
     "bootstrap-icons": "^1.0.0",
@@ -96,6 +98,7 @@
     "react-intl": "2.8.0",
     "react-redux": "7.2.1",
     "react-router-dom": "5.0.0",
+    "recharts": "^1.8.5",
     "redux": "4.0.1",
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
