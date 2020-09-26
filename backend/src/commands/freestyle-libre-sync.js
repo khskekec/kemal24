@@ -2,7 +2,6 @@ import axios from 'axios';
 import moment from 'moment';
 import db from '../services/database';
 
-
 const command = async () => {
     const ax = axios.create({
         baseURL: 'https://api-eu.libreview.io/lsl/api',
@@ -64,8 +63,6 @@ const command = async () => {
             value: set.Value
         });
     }
-
-    console.log('END');
 }
 
-command().then(() => process.exit())
+export default command;
