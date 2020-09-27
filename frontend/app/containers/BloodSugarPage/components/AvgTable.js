@@ -4,15 +4,7 @@ import classnames from 'classnames';
 import axios from "../../../utils/axios";
 import {bloodSugarAlert, round, bloodSugarRangeConfiguration} from "../../../utils/misc";
 
-const AvgTable = ({url, dateRange}) => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    getData();
-  }, [dateRange]);
-
-  const getData = async () => setData((await axios.get(url, {params: dateRange})).data);
-
+const AvgTable = ({data}) => {
   if (!data) return null;
 
   const totalEvents = data.length;
@@ -22,8 +14,9 @@ const AvgTable = ({url, dateRange}) => {
   }));
 
   return <div className='container-fluid'>
-    <div className='row'>
-      <div className='col-8'>
+    <div className='row flex-column-reverse flex-md-row'>
+      <div className='col-12 col-md-8'>
+        <h4>Averages</h4>
         <table className='table table-striped table-responsive'>
           <thead>
           <tr>
@@ -39,7 +32,8 @@ const AvgTable = ({url, dateRange}) => {
           </tbody>
         </table>
       </div>
-      <div className='col-4'>
+      <div className='col-12 col-md-4'>
+        <h4>Overall range</h4>
         <table className='table'>
           <thead>
           <tr>

@@ -6,7 +6,10 @@ const router = new Router();
 router.use(authentication);
 
 router.get('/', async ctx => {
-    const data = await ctx.db().Event.findAll({include: ctx.db().EventType});
+    const data = await ctx.db().Event.findAll({
+        include: ctx.db().EventType,
+        order: ctx.db().sequelize.literal('start desc')
+    });
     ctx.body = data;
 });
 

@@ -9,7 +9,10 @@ const DateRangePicker = ({onChange}) => {
 
   const handleStartEnd = () => onChange({start, end});
   const handleDaysInPast = () => onChange({start: moment().subtract(daysInPast, 'd').format('YYYY-MM-DD'), end: null});
-
+  const handleTodayPreset = () => onChange({start: moment().format('YYYY-MM-DD'), end: null});
+  const handleYesterdayPreset = () => onChange({start: moment().subtract(1, 'd').format('YYYY-MM-DD'), end: moment().format('YYYY-MM-DD')});
+  const handleLast3DaysPreset = () => onChange({start: moment().subtract(3, 'd').format('YYYY-MM-DD'), end: null});
+  const handleLastWeekPreset = () => onChange({start: moment().subtract(7, 'd').format('YYYY-MM-DD'), end: null});
 
   return <div className='container-fluid'>
     <div className='row'>
@@ -45,7 +48,7 @@ const DateRangePicker = ({onChange}) => {
             </div>
           </div>
           <hr/>
-          <div className='col-12 mt-2'>
+          <div className='col-12 my-2'>
             <button type='button' className='btn btn-primary btn-block' onClick={handleStartEnd} disabled={!start || !end}>OK</button>
           </div>
         </div>
@@ -56,11 +59,18 @@ const DateRangePicker = ({onChange}) => {
             </div>
           </div>
           <hr/>
-          <div className='col-12 mt-2'>
+          <div className='col-12 my-2'>
             <button type='button' className='btn btn-primary btn-block' disabled={!daysInPast} onClick={handleDaysInPast}>OK</button>
           </div>
         </div>
-        <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">cvcvcv
+        <div className="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+          <div className='row'>
+            <button type='button' className='btn btn-primary col m-3' onClick={handleTodayPreset}>Today</button>
+            <button type='button' className='btn btn-primary col m-3' onClick={handleYesterdayPreset}>Yesterday</button>
+            <button type='button' className='btn btn-primary col m-3' onClick={handleLast3DaysPreset}>Last 3 days</button>
+            <button type='button' className='btn btn-primary col m-3' onClick={handleLastWeekPreset}>Last week</button>
+            <button type='button' className='btn btn-primary col m-3'>Last month</button>
+          </div>
         </div>
       </div>
     </div>

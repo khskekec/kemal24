@@ -32,8 +32,8 @@ const Table = ({events, onActionDelete}) => {
               <button className='btn' onClick={() => onActionDelete(cellData)}><i className='fa fa-trash color-danger' /></button>
             </div>
           },
-          getColumDefinition('ID', 'id', 'id'),
-          getColumDefinition('Title', 'title', 'title'),
+          //getColumDefinition('ID', 'id', 'id'),
+          //getColumDefinition('Title', 'title', 'title'),
           getColumDefinition('Type', 'EventType.title', 'EventType.title'),
           {
             ...getColumDefinition('Start', 'start', 'start'),

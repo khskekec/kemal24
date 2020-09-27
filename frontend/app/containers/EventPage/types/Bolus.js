@@ -25,12 +25,14 @@ const Bolus = () => {
     const values = getValues();
     const data = {
       start: timeOption === 'automatic' ? (new Date()).toISOString() : values.start,
+      end: timeOption === 'automatic' ? (new Date()).toISOString() : values.start,
       typeId: 'BOLUS',
       title: null,
       bolusType,
-      originBolus: meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()),
       value: bolusType === 'automatic' ?  meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()) : parseFloat(manualBolus),
       meta: {
+        originalBolus: meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()),
+        deviation: (100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100) * -1,
         factor: getFactorValue(calculateFactor()),
         meals: meals,
         totalCarbs: meals.reduce((total, e) => total + e.carbs, 0),
@@ -92,9 +94,8 @@ const Bolus = () => {
       ke: values.mealPortionCarbs / 10
     }]);
 
-    setValue('mealTitle', '');
-    setValue('mealCarbs', null);
-    setValue('mealWeight', null);
+    setValue('mealPortionTitle', '');
+    setValue('mealPortionCarbs', null);
   }
 
   const addSearchMeal = (index, meal) => {
@@ -392,13 +393,13 @@ const Bolus = () => {
                     <h5>Factor</h5>
                   </div>
                 </div>
-                <div className='col-3'>
+                <div className='col-6 col-md-3'>
                   <div className='alert alert-primary text-center'>
                     <h1>{round(meals.reduce((total, e) => total + e.ke, 0))}</h1>
                     <h5>KEs</h5>
                   </div>
                 </div>
-                <div className='col-3'>
+                <div className='col-6 col-md-3'>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? currentBloodSugar.value : 'N/A'}</h1>
                     <h5>Blood Sugar</h5>
@@ -408,7 +409,7 @@ const Bolus = () => {
                       className='far fa-clock'/> {round(currentBloodSugar.minutesAgo)} minutes ago</span>}
                   </div>
                 </div>
-                <div className='col-3'>
+                <div className='col-6 col-md-3'>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? injectionMealInterval(currentBloodSugar.value) + ' mins' : 'N/A'}</h1>
                     <h5>Injection-Meal-Distance</h5>
@@ -440,7 +441,7 @@ const Bolus = () => {
               </div>
               <div className={classnames('alert', 'alert-info', 'mt-5', {'d-none': meals.length === 0 || (manualBolus && manualBolus.length) === 0 || bolusType === 'automatic'})}>
                 <h4>You are entering a manual bolus</h4>
-                Deviation: {100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100} %
+                Deviation: {(100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100) * -1} %
               </div>
               <div>
                 <label htmlFor="mealTitle" className="form-label">Description</label>
