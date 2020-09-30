@@ -29,16 +29,16 @@ const Sidebar = props => {
       icon: 'far fa-calendar-plus',
       target: '/events',
     },
-    {
-      title: 'KE Calculator',
-      icon: 'fas fa-calculator',
-      target: '/calculator',
-    },
-    {
-      title: 'Correction Calculator',
-      icon: 'far fa-check-circle',
-      target: '/correction-calculator',
-    },
+    // {
+    //   title: 'KE Calculator',
+    //   icon: 'fas fa-calculator',
+    //   target: '/calculator',
+    // },
+    // {
+    //   title: 'Correction Calculator',
+    //   icon: 'far fa-check-circle',
+    //   target: '/correction-calculator',
+    // },
     {
       title: 'Blood Sugar',
       icon: 'fas fa-tint',
