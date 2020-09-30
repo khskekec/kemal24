@@ -4,14 +4,14 @@ import configureStore from '../configureStore';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3010/api/v1/',
-  timeout: 1000,
+  timeout: 5000,
   withCredentials: true,
 });
 
 axiosInstance.interceptors.response.use(
   response => response,
   error => {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status && error.response.status === 401) {
       localStorage.clear();
       configureStore().dispatch(actions.setCurrentUser(null));
     }

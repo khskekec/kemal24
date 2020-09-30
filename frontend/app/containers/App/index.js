@@ -52,7 +52,7 @@ export default function App() {
         <Sidebar />
         <Content>
           <Switch>
-            <Route exact path="/" component={NotFoundPage} />
+            <Route exact path="/" component={DashboardPage} />
             <Route path="/calculator" component={CalculatorPage} />
             <Route exact path="/events" component={EventPage} />
             <Route exact path='/events/create' component={EventModification}/>
