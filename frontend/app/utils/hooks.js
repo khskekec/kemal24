@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import axiosInstance from "./axios";
+
 export const useAjaxData = options => {
   const [data, setData] = useState({
     loading: false,
@@ -12,7 +13,7 @@ export const useAjaxData = options => {
   const [forceReload, setForceReload] = useState(false);
 
   useEffect(() => {
-    setData({...data, loading: true, done: false, error: false});
+    setData({...data, loading: true, done: false, error: false, response: null});
 
     if (!forceReload && !initial) return;
 
@@ -29,5 +30,12 @@ export const useAjaxData = options => {
     setForceReload(false);
   }, [JSON.stringify(options), forceReload])
 
-  return {...data, reload: () => setForceReload(true), success: data.done && !data.error, failure: data.done && data.error}
+  return {
+    ...data,
+    reload: () => setForceReload(true),
+    success: data.done && !data.error,
+    failure: data.done && data.error,
+    isLoading: data.loading || !data.done || !data.response,
+    getData: () => data.response.data
+  }
 }

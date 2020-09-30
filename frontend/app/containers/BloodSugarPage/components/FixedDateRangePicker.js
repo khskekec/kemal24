@@ -12,7 +12,7 @@ const FixedDateRangePicker = () => {
 
   const handleDateRangeChange = dateRange => dispatch(actions.setDateRange(dateRange))
 
-  return <div className='position-fixed w-100' style={{zIndex: 999}}>
+  return <div className='position-fixed' style={{zIndex: 999, width: 'calc(100% - 10rem)'}}>
     <div className={classnames('bg-white shadow-lg',{'d-none': !dateRangeVisible})}>
       <DateRangePicker onChange={handleDateRangeChange} />
     </div>

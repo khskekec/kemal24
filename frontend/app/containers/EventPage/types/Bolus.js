@@ -11,7 +11,6 @@ import {
   getFactorValue
 } from "../../CalculatorPage/utils";
 import injectionMealInterval from "../../../utils/injectionMealInterval";
-import axiosInstance from "../../../utils/axios";
 import {round} from "../../../utils/misc";
 import axios from "../../../utils/axios";
 import ImageUploader from "../components/ImageUploader";
@@ -382,7 +381,7 @@ const Bolus = () => {
           <div className='row'>
             <div className='col-12'>
               <div className='row'>
-                <div className='col-3'>
+                <div className='col-12 col-md-3'>
                   <div className='alert alert-primary text-center col-auto'>
                     <h1>{getFactorValue(calculateFactor())}</h1>
                     <span className='badge bg-primary' style={{
@@ -393,13 +392,13 @@ const Bolus = () => {
                     <h5>Factor</h5>
                   </div>
                 </div>
-                <div className='col-6 col-md-3'>
+                <div className='col-12c ol-md-3'>
                   <div className='alert alert-primary text-center'>
                     <h1>{round(meals.reduce((total, e) => total + e.ke, 0))}</h1>
                     <h5>KEs</h5>
                   </div>
                 </div>
-                <div className='col-6 col-md-3'>
+                <div className='col-12 col-md-3'>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? currentBloodSugar.value : 'N/A'}</h1>
                     <h5>Blood Sugar</h5>
@@ -409,7 +408,7 @@ const Bolus = () => {
                       className='far fa-clock'/> {round(currentBloodSugar.minutesAgo)} minutes ago</span>}
                   </div>
                 </div>
-                <div className='col-6 col-md-3'>
+                <div className='col-12 col-md-3'>
                   <div className='alert alert-success text-center'>
                     <h1>{currentBloodSugar ? injectionMealInterval(currentBloodSugar.value) + ' mins' : 'N/A'}</h1>
                     <h5>Injection-Meal-Distance</h5>
