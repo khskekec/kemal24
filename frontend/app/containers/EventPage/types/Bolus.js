@@ -20,6 +20,8 @@ import {useDispatch} from "react-redux";
 const Bolus = () => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
   const dispatch = useDispatch();
+
+  const autoFactor = getFactorValue(calculateFactor());
   const onSubmit = async (...args) => {
     const values = getValues();
     const data = {
@@ -28,11 +30,14 @@ const Bolus = () => {
       typeId: 'BOLUS',
       title: null,
       bolusType,
-      value: bolusType === 'automatic' ?  meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()) : parseFloat(manualBolus),
+      value: bolusType === 'automatic' ?
+        meals.reduce((total, e) => total + e.ke, 0) * autoFactor :
+          bolusType === 'manual' ? parseFloat(manualBolus) : meals.reduce((total, e) => total + e.ke, 0) * manualFactor,
       meta: {
-        originalBolus: meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()),
-        deviation: (100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100) * -1,
-        factor: getFactorValue(calculateFactor()),
+        originalBolus: meals.reduce((total, e) => total + e.ke, 0) * autoFactor,
+        originalFactor: autoFactor,
+        factor: bolusType === 'manualFactor' ? manualFactor : autoFactor,
+        deviation: (100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * autoFactor))) * 100) * -1,
         meals: meals,
         totalCarbs: meals.reduce((total, e) => total + e.carbs, 0),
         totalKe: meals.reduce((total, e) => total + e.ke, 0)
@@ -213,6 +218,7 @@ const Bolus = () => {
   const mealOptions = watch(['mealTitle', 'mealCarbs', 'mealWeight']);
   const mealPortionOptions = watch(['mealPortionTitle', 'mealPortionCarbs']);
   const manualBolus = watch('manualBolus');
+  const manualFactor = watch('manualFactor');
   const bolusType = watch('bolusType');
 
   const mealsTable = <table className='table align-middle'>
@@ -383,7 +389,7 @@ const Bolus = () => {
               <div className='row'>
                 <div className='col-12 col-md-3'>
                   <div className='alert alert-primary text-center col-auto'>
-                    <h1>{getFactorValue(calculateFactor())}</h1>
+                    <h1>{autoFactor}</h1>
                     <span className='badge bg-primary' style={{
                       position: 'absolute',
                       top: '-3px',
@@ -392,7 +398,7 @@ const Bolus = () => {
                     <h5>Factor</h5>
                   </div>
                 </div>
-                <div className='col-12c ol-md-3'>
+                <div className='col-12 col-md-3'>
                   <div className='alert alert-primary text-center'>
                     <h1>{round(meals.reduce((total, e) => total + e.ke, 0))}</h1>
                     <h5>KEs</h5>
@@ -416,7 +422,7 @@ const Bolus = () => {
                 </div>
                 <div className='col-12'>
                   <div className='alert alert-info text-center'>
-                    <h1>{round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor()))} Units</h1>
+                    <h1>{round(meals.reduce((total, e) => total + e.ke, 0) * autoFactor)} Units</h1>
                     <h5>Bolus</h5>
                   </div>
                 </div>
@@ -431,16 +437,28 @@ const Bolus = () => {
 
                   <input type="radio" className="btn-check" name="bolusType" id="bolusTypeOption2" autoComplete="off"
                          value="manual" ref={register()}/>
-                  <label className="btn btn-secondary" htmlFor="bolusTypeOption2">Manual</label>
+                  <label className="btn btn-secondary" htmlFor="bolusTypeOption2">Manual Bolus</label>
+
+                  <input type="radio" className="btn-check" name="bolusType" id="bolusTypeOption3" autoComplete="off"
+                         value="manualFactor" ref={register()}/>
+                  <label className="btn btn-secondary" htmlFor="bolusTypeOption3">Manual Factor</label>
                 </div>
               </div>
-              <div className={classnames('mb-3', { 'd-none': bolusType === 'automatic' })}>
+              <div className={classnames('mb-3', { 'd-none': bolusType !== 'manual' })}>
                 <label htmlFor="manualBolus" className="form-label">Bolus</label>
                 <input type='number' className='form-control' id="manualBolus" name='manualBolus' step="0.01" defaultValue='' ref={register()}/>
               </div>
-              <div className={classnames('alert', 'alert-info', 'mt-5', {'d-none': meals.length === 0 || (manualBolus && manualBolus.length) === 0 || bolusType === 'automatic'})}>
+              <div className={classnames('mb-3', { 'd-none': bolusType !== 'manualFactor' })}>
+                <label htmlFor="manualBolus" className="form-label">Factor</label>
+                <input type='number' className='form-control' id="manualFactor" name='manualFactor' step="0.01" defaultValue={autoFactor} ref={register()} />
+                <div className='alert alert-primary col-12 mt-3 text-center'>
+                  <h1>{round(meals.reduce((total, e) => total + e.ke, 0) * manualFactor)}</h1>
+                  <h5>Bolus</h5>
+                </div>
+              </div>
+              <div className={classnames('alert', 'alert-info', 'mt-5', {'d-none': meals.length === 0 || (manualBolus && manualBolus.length) === 0 || bolusType !== 'manual'})}>
                 <h4>You are entering a manual bolus</h4>
-                Deviation: {(100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * getFactorValue(calculateFactor())))) * 100) * -1} %
+                Deviation: {(100 - (manualBolus / (round(meals.reduce((total, e) => total + e.ke, 0) * autoFactor))) * 100) * -1} %
               </div>
               <div>
                 <label htmlFor="mealTitle" className="form-label">Description</label>

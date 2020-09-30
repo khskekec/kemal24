@@ -11,7 +11,7 @@ export const factorConfiguration = [
   },
   {
     id: 'afternoon',
-    factor: 0.5,
+    factor: 0.6,
     title: 'Afternoon',
     start: '12:00',
     end: '18:00',

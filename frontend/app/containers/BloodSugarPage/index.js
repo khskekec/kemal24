@@ -43,7 +43,10 @@ const BloodSugarPage = () => {
                           targetUrl='/blood-sugar/daily-hourly-avg'/>
         </div>
         <div className='col-6 col-md mt-4'>
-          <RoutingNavItem title='Chart' icon={<Icon iconClass='fa-chart-line'/>} targetUrl='/blood-sugar/chart'/>
+          <RoutingNavItem title='Over Time' icon={<Icon iconClass='fa-chart-line'/>} targetUrl='/blood-sugar/chart'/>
+        </div>
+        <div className='col-6 col-md mt-4'>
+          <RoutingNavItem title='Time in Range' icon={<Icon iconClass='fa-check'/>} targetUrl='/blood-sugar/time-in-range'/>
         </div>
       </div>
     </div>
