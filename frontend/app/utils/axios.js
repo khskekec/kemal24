@@ -4,7 +4,7 @@ import configureStore from '../configureStore';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3010/api/v1/',
-  timeout: 5000,
+  timeout: 20000,
   withCredentials: true,
 });
 

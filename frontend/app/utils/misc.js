@@ -1,7 +1,10 @@
 import classnames from 'classnames';
 
 export function round(number) {
-  return number.toFixed(2);
+  const num = parseFloat(number);
+
+  if (!num) return 0;
+  return num.toFixed(2);
 }
 
 export const bloodSugarRangeConfiguration = [
