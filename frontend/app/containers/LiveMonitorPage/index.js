@@ -35,8 +35,8 @@ export function LiveMonitorPage({}) {
     const data = getData();
     content = <div className="row">
       <h1>Time</h1>
-      <InfoBox title='Latest Bolus' value={round(moment.duration(moment().diff(moment(data.bolus.latest))).asMinutes()) + ' mins'} />
-      <InfoBox title='Latest Blood Sugar' value={round(moment.duration(moment().diff(moment(data.bloodSugar.latest))).asMinutes()) + ' mins'} />
+      <InfoBox title='Latest Bolus' value={round(moment.duration(moment().diff(moment(data.bolus.latest.start))).asMinutes()) + ' mins'} />
+      <InfoBox title='Latest Blood Sugar' value={round(moment.duration(moment().diff(moment(data.bloodSugar.latest.start))).asMinutes()) + ' mins'} />
       <h1>Blood Sugar</h1>
       <InfoBox title='Latest' value={data.bloodSugar.latest.value}/>
       <InfoBox title='Average' value={round(data.bloodSugar.average)}/>
