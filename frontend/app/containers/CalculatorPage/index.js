@@ -61,7 +61,7 @@ export function CalculatorPage({}) {
             <div className="card-body text-center">
               <p className="card-text">
                 <input
-                  type="number"
+                  type="number" step=".01"
                   className="form-control form-control-xxl"
                   value={carbs100}
                   onChange={e => setCarbs100(e.target.value)}
@@ -76,7 +76,7 @@ export function CalculatorPage({}) {
             <div className="card-body text-center">
               <p className="card-text">
                 <input
-                  type="number"
+                  type="number" step=".01"
                   className="form-control form-control-xxl"
                   value={totalWeight}
                   onChange={e => setTotalWeight(e.target.value)}

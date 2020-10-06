@@ -137,12 +137,12 @@ const CorrectionBolus = () => {
           </div>
           <div className="mb-3">
             <label htmlFor="realCurrentBloodSugar" className="form-label">Real Blood Sugar</label>
-            <input type="number" className="form-control" id="realCurrentBloodSugar" name='realCurrentBloodSugar' ref={register()}
+            <input type="number" step=".01" className="form-control" id="realCurrentBloodSugar" name='realCurrentBloodSugar' ref={register()}
                    defaultValue={currentBloodSugar ? currentBloodSugar.value : null} onBlur={ e => { e.target.value.length === 0 ? setValue('realCurrentBloodSugar', currentBloodSugar.value) : null}} />
           </div>
           <div className={ classnames('mb-4', { 'd-none': isAutomatic }) }>
             <label htmlFor="bolus" className="form-label">Bolus</label>
-            <input type="number" className="form-control" id="bolus" name='bolus' ref={register()} disabled={noCorrectionRequired} />
+            <input type="number" step=".01" className="form-control" id="bolus" name='bolus' ref={register()} disabled={noCorrectionRequired} />
           </div>
           <div className={ classnames('mb-4', 'alert', 'alert-info', 'd-none', { 'd-block': noCorrectionRequired && !isAutomatic}) }>
             You cannot enter a manual bolus because there is no need for a correction for the given blood sugar value

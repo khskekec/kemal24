@@ -65,7 +65,7 @@ const Generic = ({ title, type}) => {
         <div className='card-body'>
           <div className="mb-3">
             <label htmlFor="value" className="form-label">Value</label>
-            <input type="number" className="form-control" id="value" name='value' ref={register()}/>
+            <input type="number" step=".01" step=".01" className="form-control" id="value" name='value' ref={register()}/>
           </div>
           <div className="mb-3">
             <label htmlFor="description" className="form-label">Description</label>

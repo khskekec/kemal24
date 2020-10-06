@@ -324,11 +324,11 @@ const Bolus = () => {
                   </div>
                   <div className="col-md-4 mb-3">
                     <label htmlFor="mealCarbs" className="form-label">Carbs 100g</label>
-                    <input type="number" className="form-control" id="mealCarbs" name='mealCarbs' ref={register()}/>
+                    <input type="number" step=".01" className="form-control" id="mealCarbs" name='mealCarbs' ref={register()}/>
                   </div>
                   <div className="col-md-4 mb-3">
                     <label htmlFor="mealWeight" className="form-label">Weight</label>
-                    <input type="number" className="form-control" id="mealWeight" name='mealWeight' ref={register()}/>
+                    <input type="number" step=".01" className="form-control" id="mealWeight" name='mealWeight' ref={register()}/>
                   </div>
                   <div className="col-12 col-md-4 offset-md-4">
                     <button className='btn btn-primary btn-block' onClick={addMeal}
@@ -348,7 +348,7 @@ const Bolus = () => {
                   </div>
                   <div className="col-md-6 mb-3">
                     <label htmlFor="mealCarbs" className="form-label">Carbs per Portion</label>
-                    <input type="number" className="form-control" id="mealPortionCarbs" name='mealPortionCarbs'
+                    <input type="number" step=".01" className="form-control" id="mealPortionCarbs" name='mealPortionCarbs'
                            ref={register()}/>
                   </div>
                   <div className="col-12 col-md-4 offset-md-4">

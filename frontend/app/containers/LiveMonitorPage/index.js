@@ -33,20 +33,22 @@ export function LiveMonitorPage({}) {
 
   if (success) {
     const data = getData();
+
     content = <div className="row">
       <h1>Time</h1>
-      <InfoBox title='Latest Bolus' value={round(moment.duration(moment().diff(moment(data.bolus.latest.start))).asMinutes()) + ' mins'} />
-      <InfoBox title='Latest Blood Sugar' value={round(moment.duration(moment().diff(moment(data.bloodSugar.latest.start))).asMinutes()) + ' mins'} />
+      <InfoBox title='Latest Bolus' value={data.bolus?.latest?.start ? moment.duration(moment().diff(moment(data.bolus.latest.start))).asMinutes() + ' mins' + data.bolus.latest.start : 'N/A'} />
+      <InfoBox title='Latest Bolus' value={data.bolus?.latest?.start ? moment(moment.duration(moment().diff(moment(data.bolus.latest.start))).asMinutes()).format("HH:mm") + ' mins' : 'N/A'} />
+      <InfoBox title='Latest Blood Sugar' value={data.bloodSugar?.latest?.start ? round(moment.duration(moment().diff(moment(data.bloodSugar.latest.start))).asMinutes()) + ' mins' : 'N/A'} />
       <h1>Blood Sugar</h1>
-      <InfoBox title='Latest' value={data.bloodSugar.latest.value}/>
-      <InfoBox title='Average' value={round(data.bloodSugar.average)}/>
-      <InfoBox title='Highest' value={data.bloodSugar.highest.value}/>
-      <InfoBox title='Lowest' value={data.bloodSugar.lowest.value}/>
+      <InfoBox title='Latest' value={data.bloodSugar?.latest?.value ?? 'N/A'}/>
+      <InfoBox title='Average' value={data.bloodSugar?.average ? round(data.bloodSugar?.average) : 'N/A'}/>
+      <InfoBox title='Highest' value={data.bloodSugar?.highest?.value ?? 'N/A'}/>
+      <InfoBox title='Lowest' value={data.bloodSugar?.lowest?.value ?? 'N/A'}/>
       <h1>Bolus</h1>
-      <InfoBox title='Total Insulin today' value={round(data.bolus.totalInsulin)}/>
-      <InfoBox title='Total Carbs today' value={round(data.bolus.totalCarbs)}/>
-      <InfoBox title='Lowest' value={data.bolus.lowest.value}/>
-      <InfoBox title='Highest' value={data.bolus.highest.value}/>
+      <InfoBox title='Total Insulin today' value={data.bolus?.totalInsulin ? round(data.bolus?.totalInsulin): 'N/A'}/>
+      <InfoBox title='Total Carbs today' value={data.bolus?.totalCarbs ? round(data.bolus?.totalCarbs) : 'N/A'}/>
+      <InfoBox title='Lowest' value={data.bolus?.lowest?.value ?? 'N/A'}/>
+      <InfoBox title='Highest' value={data.bolus?.highest?.value ?? 'N/A'}/>
     </div>
   }
 

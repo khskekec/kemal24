@@ -33,7 +33,7 @@ export function CorrectionCalculatorPage({}) {
               <div className="card-body text-center">
                 <p className="card-text">
                   <input
-                    type="number"
+                    type="number" step=".01"
                     className="form-control form-control-xxl"
                     value={bloodSugar}
                     onChange={e => setBloodSugar(e.target.value)}
@@ -57,7 +57,7 @@ export function CorrectionCalculatorPage({}) {
                     <div className="row">
                       <div className="col">
                         <input
-                          type="number"
+                          type="number" step=".01"
                           className="form-control form-control-xxl"
                           value={threshold}
                           onChange={e => setThreshold(e.target.value)}
@@ -65,7 +65,7 @@ export function CorrectionCalculatorPage({}) {
                       </div>
                       <div className="col">
                         <input
-                          type="number"
+                          type="number" step=".01"
                           className="form-control form-control-xxl"
                           value={correction}
                           onChange={e => setCorrection(e.target.value)}
