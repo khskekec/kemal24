@@ -35,7 +35,7 @@ const BolusItem = ({data}) => {
         <span className='badge bg-info'><i
           className='fa fa-clock'/> {round(moment.duration(moment().diff(moment(data.start))).asMinutes())}</span>&nbsp;
         <span className='badge bg-info'><i className='fa fa-file-import'/> {data['origin'] ?? 'Manual'}</span>&nbsp;
-        <span className='badge bg-info'>Carbs {data.meta.meals.totalCarbs}g</span>
+        {/*<span className='badge bg-info'>Carbs {data.meta.meals.totalCarbs}g</span>*/}
       </div>
     </div>}
     detailView={<pre dangerouslySetInnerHTML={{__html: syntaxHighlight(JSON.stringify(data, undefined, 2))}}></pre>}
