@@ -8,7 +8,9 @@ router.use(authentication);
 router.get('/', async ctx => {
     const data = await ctx.db().Event.findAll({
         include: ctx.db().EventType,
-        order: ctx.db().sequelize.literal('start desc')
+        order: ctx.db().sequelize.literal('start desc'),
+        limit: 500,
+        attributes: {exclude: ['attachments']}
     });
     ctx.body = data;
 });
