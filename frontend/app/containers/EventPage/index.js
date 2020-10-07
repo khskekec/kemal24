@@ -17,6 +17,13 @@ import {
 } from 'react-redux';
 import {Route} from "react-router-dom";
 import {useAjaxData} from "../../utils/hooks";
+import CorrectionMeal from "./types/CorrectionMeal";
+import GenericItem from "./components/Items/GenericItem";
+import BloodSugarItem from "./components/Items/BloodSugarItem";
+import LoadingIndicator from "../../components/LoadingIndicator";
+import BolusItem from "./components/Items/BolusItem";
+import CorrectionMealItem from "./components/Items/CorrectionMealItem";
+import CorrectionBolusItem from "./components/Items/CorrectionBolusItem";
 
 const key = 'event';
 
@@ -30,15 +37,34 @@ const EventPage = () => {
   }
 
   if (isLoading) {
-    return <h1>LOADING</h1>;
+    return <LoadingIndicator />
   }
 
   if (failure) {
     alert('Something went wrong');
   }
 
+  const render = item => {
+    // console.log(item);
+
+    switch (item.EventType.constant) {
+      case 'BLOOD_SUGAR':
+        return <BloodSugarItem data={item} />
+      case 'BOLUS':
+        return <BolusItem data={item} />
+      case 'CORRECTION_BOLUS':
+        return <CorrectionBolusItem data={item} />
+      case 'CORRECTION_MEAL':
+        return <CorrectionMealItem data={item} />
+      default:
+        return <GenericItem data={item} />
+    }
+  }
+
   return (<Fragment>
-      <Table events={getData()} onActionDelete={onEventDelete}/>
+      <ul className='list-group list-group-flush'>
+        {getData().map(e => render(e))}
+      </ul>
       <a href='javascript:void(0)' onClick={() => dispatch(push('/events/create'))}
          style={{position: 'absolute', bottom: '1rem', right: '1rem'}}><i
         className='color-brand bg-white fa fa-4x fa-plus-circle color-primary border-radius-5'/></a>
