@@ -5,7 +5,7 @@ import {bloodSugarAlert, getBloodSugarRange, round} from "../../../../utils/misc
 
 const BloodSugarItem = ({data}) => {
   return <GenericItem
-    icon={<i className='fa fa-tint-slash color-brand'/>}
+    icon={<i className='fa fa-tint color-brand'/>}
     body={<span className='font-weight-bold'>Blood Sugar</span>}
     borderIndicatorColor={getBloodSugarRange(data.value).color}
     value={<div className='d-flex align-items-center'>
