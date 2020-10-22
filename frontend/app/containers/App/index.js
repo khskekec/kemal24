@@ -29,6 +29,7 @@ import HourlyAvg from "../BloodSugarPage/HourlyAvg";
 import DailyHourlyAvg from "../BloodSugarPage/DailyHourlyAvg";
 import Chart from "../BloodSugarPage/Chart";
 import {LiveMonitorPage} from "../LiveMonitorPage";
+import LifeMonitorPage from "../LifeMonitorPage";
 export default function App() {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectors.currentUser);
@@ -64,6 +65,10 @@ export default function App() {
             <Route
               path="/live-monitor"
               component={LiveMonitorPage}
+            />
+            <Route
+              path="/life-monitor"
+              component={LifeMonitorPage}
             />
             <Route
               path="/blood-sugar/chart"
