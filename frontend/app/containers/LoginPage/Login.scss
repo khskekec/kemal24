@@ -5,6 +5,12 @@
   flex-direction: column;
   height: 100vh;
   background-color: $brand-highlight-color;
+
+  .loginImage {
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
   .login-logo {
     display: flex;
     align-items: flex-end;

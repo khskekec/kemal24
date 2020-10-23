@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux';
 import axios from '../../utils/axios';
 import {actions} from '../App/redux';
 import {useForm} from 'react-hook-form';
+import MoonPng from '../../images/PikPng.com_full-moon-png_319839.png'
 import "./Login.scss";
 
 const LoginPage = () => {
@@ -33,11 +34,12 @@ const LoginPage = () => {
 
   return (
     <div className='login-container'>
-      <div className='login-logo font-weight-900 text-size-7 shadow-lg'>
+      <img src={MoonPng} className='position-absolute zIndex1 loginImage'/>
+      <div className='login-logo font-weight-900 text-size-7 shadow-lg zIndex2'>
         <span>K24</span>
       </div>
-      <div className='form-container'>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <div className='form-container '>
+        <form onSubmit={handleSubmit(onSubmit)} className='zIndex2'>
           <div>
             <input
               className='form-control form-control-lg shadow-lg'
