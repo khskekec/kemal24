@@ -21,9 +21,11 @@ import Meals from "../components/Meals";
 
 const CorrectionMeal = () => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
+  const [isLoading, setLoading] = useState(false);
   const [time, setTime] = useState();
   const dispatch = useDispatch();
   const onSubmit = async (...args) => {
+    setLoading(true);
     const values = getValues();
     const data = {
       start: time.value,
@@ -44,6 +46,7 @@ const CorrectionMeal = () => {
 
       dispatch(push('/events'));
     } catch(e) {
+      setLoading(false);
       alert(e);
     }
   };
@@ -87,7 +90,7 @@ const CorrectionMeal = () => {
           <textarea className='form-control' name='description' id='description' ref={register()}></textarea>
         </div>
         <div className='card-footer'>
-          <button className='btn btn-primary btn-block' disabled={!mealsData.meals.length}>Create</button>
+          <button className='btn btn-primary btn-block' disabled={!mealsData.meals.length || isLoading}>Create</button>
         </div>
       </div>
     </form>

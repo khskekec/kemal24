@@ -2,6 +2,7 @@ import React from 'react';
 import GenericItem from "./GenericItem";
 import moment from "moment";
 import {round, syntaxHighlight} from "../../../../utils/misc";
+import pp from "pretty-print-json";
 
 const CorrectionBolusItem = ({data}) => {
   return <GenericItem
@@ -18,7 +19,7 @@ const CorrectionBolusItem = ({data}) => {
         <span className='badge bg-info'><i className='fa fa-file-import'/> {data['origin'] ?? 'Manual'}</span>&nbsp;
       </div>
     </div>}
-    detailView={<pre dangerouslySetInnerHTML={{__html: syntaxHighlight(JSON.stringify(data, undefined, 2))}}></pre>}
+    detailView={<pre dangerouslySetInnerHTML={{__html: pp.toHtml(data)}}></pre>}
   />
 }
 

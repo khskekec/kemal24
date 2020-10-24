@@ -10,9 +10,11 @@ import TimeSelector from "../components/TimeSelector";
 const Generic = ({ title, type}) => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
   const [files, setFiles] = useState();
+  const [isLoading, setLoading] = useState(false);
   const [time, setTime] = useState(null);
   const dispatch = useDispatch();
   const onSubmit = async (...args) => {
+    setLoading(true);
     const values = getValues();
     const data = {
       start: time.value,
@@ -59,7 +61,7 @@ const Generic = ({ title, type}) => {
           <textarea className='form-control' name='description' id='description' ref={register()}></textarea>
         </div>
         <div className='card-footer'>
-          <button className='btn btn-primary btn-block'>Create</button>
+          <button className='btn btn-primary btn-block' disabled={isLoading}>Create</button>
         </div>
       </div>
     </form>

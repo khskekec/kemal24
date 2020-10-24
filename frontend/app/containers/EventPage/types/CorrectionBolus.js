@@ -15,6 +15,7 @@ import TimeSelector from "../components/TimeSelector";
 const CorrectionBolus = () => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
   const [currentBloodSugar, setCurrentBloodSugar] = useState(null);
+  const [isLoading, setLoading] = useState(false);
   const [correction, setCorrection] = useState(0.1);
   const [threshold, setThreshold] = useState(200);
   const [files, setFiles] = useState([]);
@@ -24,6 +25,7 @@ const CorrectionBolus = () => {
   const calculateOriginalCorrection = () => (realCurrentBloodSugar - threshold) / 10 * correction;
 
   const onSubmit = async (...args) => {
+    setLoading(true);
     const values = getValues();
     const data = {
       start: time.value,
@@ -43,6 +45,7 @@ const CorrectionBolus = () => {
 
       dispatch(push('/events'));
     } catch(e) {
+      setLoading(false);
       alert(e);
     }
   };
@@ -143,7 +146,7 @@ const CorrectionBolus = () => {
             <textarea className="form-control" id="description" name='description' ref={register()}/>
         </div>
         <div className='card-footer'>
-          <button className='btn btn-primary btn-block' disabled={noCorrectionRequired}>Create</button>
+          <button className='btn btn-primary btn-block' disabled={noCorrectionRequired || isLoading}>Create</button>
         </div>
       </div>
     </form>

@@ -22,10 +22,12 @@ import Meals from "../components/Meals";
 const Bolus = () => {
   const {register, handleSubmit, errors, getValues, watch, setValue} = useForm();
   const [time, setTime] = useState();
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const autoFactor = getFactorValue(calculateFactor());
   const onSubmit = async (...args) => {
+    setLoading(true);
     const values = getValues();
 
     const data = {
@@ -185,7 +187,7 @@ const Bolus = () => {
             <textarea className='form-control' name='description' id='description' ref={register()}></textarea>
         </div>
         <div className='card-footer'>
-          <button className='btn btn-primary btn-block'>Create</button>
+          <button className='btn btn-primary btn-block' disabled={isLoading}>Create</button>
         </div>
       </div>
     </form>
