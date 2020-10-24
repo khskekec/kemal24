@@ -2,13 +2,14 @@ import React from 'react';
 import GenericItem from "./GenericItem";
 import moment from "moment";
 import {bloodSugarAlert, getBloodSugarRange, round, syntaxHighlight} from "../../../../utils/misc";
+import pp from 'pretty-print-json';
 
 const BolusItem = ({data}) => {
   return <GenericItem
     icon={<i className='fa fa-bug'/>}
     body={<span className='font-weight-bold'>Bolus</span>}
     value={<div className='d-flex align-items-center'>
-      <div>{data.value}</div>
+      <div>{round(data.value)}</div>
       <span style={{fontSize: '0.7rem'}}>UNITS</span></div>}
     footer={<div className='row p-0' style={{fontSize: '0.9rem'}}>
       <div className='col-auto ml-auto text-right'>
@@ -19,7 +20,7 @@ const BolusItem = ({data}) => {
         {/*<span className='badge bg-info'>Carbs {data.meta.meals.totalCarbs}g</span>*/}
       </div>
     </div>}
-    detailView={<pre dangerouslySetInnerHTML={{__html: syntaxHighlight(JSON.stringify(data, undefined, 2))}}></pre>}
+    detailView={<pre dangerouslySetInnerHTML={{__html: pp.toHtml(data)}}></pre>}
   />
 }
 

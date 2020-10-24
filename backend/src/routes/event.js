@@ -12,7 +12,13 @@ router.get('/', async ctx => {
         limit: 500,
         attributes: {exclude: ['attachments']}
     });
-    ctx.body = data;
+    console.log(data);
+    ctx.body = data.map(e => {
+        return {
+            ...e.dataValues,
+            meta: JSON.parse(e.dataValues.meta ? e.dataValues.meta : 'null')
+        }
+    });
 });
 
 router.get('/types', async ctx => {

@@ -8,7 +8,7 @@ const CorrectionBolusItem = ({data}) => {
     icon={<i className='fa fa-tools'/>}
     body={<span className='font-weight-bold'>Correction Bolus</span>}
     value={<div className='d-flex align-items-center'>
-      <div>{data.value}</div>
+      <div>{round(data.value)}</div>
       <span style={{fontSize: '0.7rem'}}>UNITS</span></div>}
     footer={<div className='row p-0' style={{fontSize: '0.9rem'}}>
       <div className='col-auto ml-auto text-right'>
