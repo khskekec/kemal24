@@ -12,7 +12,7 @@ router.get('/', async ctx => {
         limit: 500,
         attributes: {exclude: ['attachments']}
     });
-    console.log(data);
+
     ctx.body = data.map(e => {
         return {
             ...e.dataValues,
