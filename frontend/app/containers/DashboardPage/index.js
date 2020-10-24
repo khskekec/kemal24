@@ -4,23 +4,18 @@
  * This is the first thing users see of our App, at the '/' route
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
-import {useAjaxData} from "../../utils/hooks";
+import Widget from "./components/Widget";
 
 const key = 'dashboard';
 
 export function DashboardPage({}) {
-  const a = useAjaxData({
-    method: 'GET',
-    url: '/event',
-  });
-
   return (
     <div>
       <Helmet>
-        <title>Dashboard</title>
+        <title>LifeMonitor</title>
         <meta
           name="description"
           content="A React.js Boilerplate application homepage"
@@ -28,10 +23,47 @@ export function DashboardPage({}) {
       </Helmet>
       <div className="container-fluid pt-3">
         <div className="row">
-          <button type="button" onClick={() => a.reload()}> RELOAD</button>
-
-          {a.success && <pre>{JSON.stringify(a.response)}</pre>}
-          {a.failure && <span>Error</span>}
+          <div className='col-6 col-md-4 mb-5'>
+            <Widget title='Blood Sugar'
+                    value={178}
+                    icon={<i className='fa fa-tint'/>}
+                    tendency={-23}
+                    lastScan='10 minutes ago'
+            />
+          </div>
+          <div className='col-6 col-md-4 mb-5'>
+            <Widget title='Heart Rate'
+                    value={80}
+                    icon={<i className='fa fa-heartbeat'/>}
+                    tendency={4}
+                    lastScan='10 minutes ago'
+            />
+          </div>
+          <div className='col-6 col-md-4 mb-5'>
+            <Widget title='Weight'
+                    value={80}
+                    icon={<i className='fa fa-weight'/>}
+                    tendency={0}
+                    lastScan='10 minutes ago'
+            />
+          </div>
+          <div className='col-6 col-md-4 mb-5'>
+            <Widget title='Height'
+                    value={134}
+                    icon={<i className='fa fa-text-height'/>}
+                    tendency={0}
+                    lastScan={null}
+            />
+          </div>
+          <div className='col-6 col-md-4 mb-5'>
+            <Widget title='BMI'
+                    value={16.6}
+                    icon={<div style={{
+                      transform: 'rotate(90deg)'}}>BMI</div>}
+                    tendency={0}
+                    lastScan={null}
+            />
+          </div>
         </div>
       </div>
     </div>
