@@ -10,7 +10,7 @@ import {
 
 const BloodSugarItem = ({data}) => {
   let meta = null;
-  meta = JSON.parse(data.meta || 'null');
+  meta = JSON.parse(data.meta || '{}');
 
   return <GenericItem
     icon={<i className='fa fa-tint color-brand'/>}
