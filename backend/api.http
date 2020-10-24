@@ -15,7 +15,7 @@ Content-Type: application/json
 #             Events
 # ******************************* #
 
-GET http://localhost:3010/api/v1/event
+GET http://localhost:3010/api/v1/event?appCode=app_code
 Accept: application/json
 
 ###
@@ -101,3 +101,6 @@ Content-Type: application/json
   "userName": "hkekec",
   "password": "Kemal123"
 }
+
+###
+POST https://shareous1.dexcom.com/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues?minutes=1440&maxCount=288

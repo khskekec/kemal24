@@ -74,3 +74,66 @@ export function syntaxHighlight(object) {
     return '<span class="' + cls + '">' + match + '</span>';
   });
 }
+
+export const trendConfiguration = {
+  'STEADY': {
+    text: '→',
+    classname: 'bg-0',
+    fgClassname: 'fg-0',
+    color: '#339900',
+  },
+  'RISING_SLIGHTLY': {
+    text: '↗',
+    classname: 'bg-1',
+    fgClassname: 'fg-1',
+    color: '#99cc33',
+  },
+  'FALLING_SLIGHTLY': {
+    text: '↘',
+    classname: 'bg-1',
+    fgClassname: 'fg-1',
+    color: '#99cc33',
+  },
+  'FALLING': {
+    text: '↓',
+    classname: 'bg-3',
+    fgClassname: 'fg-3',
+    color: '#ff9966',
+  },
+  'RISING': {
+    text: '↑',
+    classname: 'bg-3',
+    fgClassname: 'fg-3',
+    color: '#ff9966',
+  },
+  'FALLING_QUICKLY':{
+    text: '↓↓',
+    classname: 'bg-4',
+    fgClassname: 'fg-4',
+    color: '#cc3300',
+  },
+  'RISING_QUICKLY':{
+    text: '↑↑',
+    classname: 'bg-4',
+    fgClassname: 'fg-4',
+    color: '#cc3300',
+  },
+  'NOT_IDENTIFIABLE': {
+    text: '?',
+    classname: 'bg-4',
+    fgClassname: 'fg-4',
+    color: '#cc3300',
+  },
+  '': {
+    text: '?',
+    classname: 'bg-4',
+    fgClassname: 'fg-4',
+    color: '#cc3300',
+  },
+  'NOT_AVAILABLE': {
+    text: '-',
+    classname: 'bg-4',
+    fgClassname: 'fg-4',
+    color: '#cc3300',
+  }
+}

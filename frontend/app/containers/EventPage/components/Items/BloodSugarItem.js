@@ -1,16 +1,24 @@
 import React from 'react';
 import GenericItem from "./GenericItem";
 import moment from "moment";
-import {bloodSugarAlert, getBloodSugarRange, round} from "../../../../utils/misc";
+import {
+  bloodSugarAlert,
+  getBloodSugarRange,
+  round,
+  trendConfiguration
+} from "../../../../utils/misc";
 
 const BloodSugarItem = ({data}) => {
+  let meta = null;
+  meta = JSON.parse(data.meta || 'null');
+
   return <GenericItem
     icon={<i className='fa fa-tint color-brand'/>}
     body={<span className='font-weight-bold'>Blood Sugar</span>}
     borderIndicatorColor={getBloodSugarRange(data.value).color}
     value={<div className='d-flex align-items-center'>
       <div className={getBloodSugarRange(data.value).fgClassname}>{data.value}</div>
-      <span style={{fontSize: '0.7rem'}}>mg/dL</span></div>}
+      <span style={{fontSize: '0.7rem'}}>mg/dL</span>&nbsp;<TrendIndicator constant={meta.trend} /></div>}
     footer={<div className='row p-0'>
       <div className='col-12 text-right' style={{fontSize: '0.9rem'}}>
         <span className='badge bg-info'><i className='fa fa-calendar'/> {moment(data.start).format('DD.MM.YYYY HH:mm')}</span>&nbsp;
@@ -20,6 +28,11 @@ const BloodSugarItem = ({data}) => {
       </div>
     </div>}
   />
+}
+
+const TrendIndicator = ({constant}) => {
+  const config = trendConfiguration[constant] ? trendConfiguration[constant] : trendConfiguration[''];
+  return <span className={'font-weight-bolder badge ' + config.classname}>{config.text}</span>
 }
 
 export default BloodSugarItem;
