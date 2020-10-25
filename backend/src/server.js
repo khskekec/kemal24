@@ -1,5 +1,6 @@
 import './services/dotenv';
 import Koa from 'koa';
+import websockify from 'koa-websocket';
 import requestLogger from './middelwares/request-logger';
 import responseTime from './middelwares/response-time';
 import bodyParser from './middelwares/body-parser';
@@ -7,8 +8,16 @@ import mainRouter from "./services/router";
 import database from "./middelwares/database";
 import errorHandler from "./middelwares/error-handler";
 import cors from '@koa/cors';
+import eventBus from './services/event-bus';
+import {websocketWelcome} from './services/event-types'
 
-const app = new Koa();
+const app = websockify(new Koa());
+
+app.use(async (ctx, next) => {
+    ctx.eventBus = eventBus;
+
+    await next();
+});
 
 app.use(cors({
     exposeHeaders: true,
@@ -24,21 +33,6 @@ app.use(errorHandler((err, ctx) => {
         stack: err.stack
     }
 }));
-
-// app.use(async (ctx, next) => {
-//     try {
-//         await next();
-//     } catch (err) {
-//         ctx.status = err.status || 500;
-//         ctx.body = {
-//             type: 'CORE_ERROR',
-//             message: err.message,
-//             stack: err.stack
-//         };
-//
-//         ctx.app.emit('error', err, ctx);
-//     }
-// });
 
 // Log requests into console
 app.use(requestLogger());
@@ -69,6 +63,26 @@ app.use(mainRouter.allowedMethods());
 app.on('error', (err, ctx) => {
     console.log('ERROR OCCURED');
     console.error(err);
+});
+
+app.use(async (ctx, next) => {
+    ctx.eventBus = eventBus;
+
+    await next();
+});
+
+app.ws.use(async (ctx, next) => {
+    eventBus.on('send-ws', data => ctx.websocket.send(data));
+    ctx.websocket.send(websocketWelcome());
+    ctx.websocket.send(JSON.stringify([ctx.query, process.env.APP_CODE]));
+
+    // the websocket is added to the context as `ctx.websocket`.
+    // ctx.websocket.on('message', function(message) {
+    //     // do something
+    //     console.log(message);
+    // });
+
+    await next();
 });
 
 export default app;

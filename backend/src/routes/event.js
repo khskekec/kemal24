@@ -1,5 +1,9 @@
 import Router from '@koa/router';
 import authentication from "../middelwares/authentication";
+import {
+    eventCreated,
+    eventDeleted
+} from "../services/event-types";
 
 const router = new Router();
 
@@ -48,11 +52,15 @@ router.post('/', async ctx => {
         }));
     }
 
+    ctx.eventBus.sendWs(eventCreated(responses));
+
     ctx.body = responses;
 });
 
 router.delete('/:id', async ctx => {
     ctx.body = await ctx.db().knex('Events').where('id', ctx.params.id).del();
+
+    ctx.eventBus.sendWs(eventDeleted(ctx.params.id));
 })
 
 export default mainRouter => {

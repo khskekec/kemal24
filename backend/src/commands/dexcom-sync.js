@@ -125,14 +125,14 @@ const command = async () => {
 
         if (alreadyExists.length) continue;
 
-        await db.Event.create({
+        await axios.post(process.env.URL + '/api/v1/event?appCode=' + process.env.APP_CODE, {
             typeId: 1,
             start: start,
             end: start,
             origin: 'DEXCOM_SYNC',
             value: set.value,
             meta: set.meta,
-        });
+        }, {});
     }
 }
 
