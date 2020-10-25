@@ -14,13 +14,6 @@ const key = 'dashboard';
 export function DashboardPage({}) {
   return (
     <div>
-      <Helmet>
-        <title>LifeMonitor</title>
-        <meta
-          name="description"
-          content="A React.js Boilerplate application homepage"
-        />
-      </Helmet>
       <div className="container-fluid pt-3">
         <div className="row">
           <div className='col-6 col-md-4 mb-5'>

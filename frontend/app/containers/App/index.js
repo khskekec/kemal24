@@ -42,12 +42,6 @@ export default function App() {
   }
   return (
     <div>
-      <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
-      >
-        <meta name="description" content="A React.js Boilerplate application" />
-      </Helmet>
       <Navbar />
       <div className="d-flex">
         <Sidebar />

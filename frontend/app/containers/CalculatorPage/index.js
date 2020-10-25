@@ -31,13 +31,6 @@ export function CalculatorPage({}) {
 
   return (
     <div>
-      <Helmet>
-        <title>Calculator</title>
-        <meta
-          name="description"
-          content="A React.js Boilerplate application homepage"
-        />
-      </Helmet>
       <div className="container-fluid pt-3">
         <div className="row">
           <div className="col">

@@ -18,13 +18,6 @@ export function CorrectionCalculatorPage({}) {
   const [threshold, setThreshold] = useState(200);
   return (
     <div>
-      <Helmet>
-        <title>Correction Calculator</title>
-        <meta
-          name="description"
-          content="A React.js Boilerplate application homepage"
-        />
-      </Helmet>
       <div className="container-fluid pt-3">
         <div className="row">
           <div className="col">

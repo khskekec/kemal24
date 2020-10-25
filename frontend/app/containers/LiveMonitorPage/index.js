@@ -54,13 +54,6 @@ export function LiveMonitorPage({}) {
 
   return (
     <div>
-      <Helmet>
-        <title>Live-Monitor</title>
-        <meta
-          name="description"
-          content="Live data of the current day"
-        />
-      </Helmet>
       <div className="container-fluid pt-3">
         {content}
       </div>
