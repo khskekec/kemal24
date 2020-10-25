@@ -10,15 +10,15 @@
 
 .shadow {
   -webkit-box-shadow: -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
-  -moz-box-shadow:    -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
-  box-shadow:         -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
+  -moz-box-shadow: -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
+  box-shadow: -5px -1px 21px 0px rgba(50, 50, 50, 0.7);
 }
 
 .image-fullscreen-container {
   position: fixed;
   top: $navbar-height !important;
   left: 0;
-  background-color: rgba(0,0,0,.75);
+  background-color: rgba(0, 0, 0, .75);
   z-index: 998;
   width: 100% !important;
   height: 100% !important;
@@ -33,4 +33,124 @@
 
 .zIndex2 {
   z-index: 2;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    ". . . . . . . . . ."
+    ". . . . lastUpdate lastUpdate . . . ."
+    ". . . . lastUpdate lastUpdate . . . ."
+    ". . . value value value value . . ."
+    "difference difference difference value value value value tendency tendency tendency"
+    "difference difference difference value value value value tendency tendency tendency"
+    ". . . value value value value . . ."
+    ". . . . . . . . . ."
+    "prev1 prev1 prev2 prev2 prev3 prev3 prev4 prev4 prev5 prev5"
+    "prev1 prev1 prev2 prev2 prev3 prev3 prev4 prev4 prev5 prev5";
+}
+
+.value {
+  grid-area: value;
+  font-size: 5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.tendency {
+  grid-area: tendency;
+  font-size: 3rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.difference {
+  grid-area: difference;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.prev1 {
+  grid-area: prev1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.prev2 {
+  grid-area: prev2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.prev3 {
+  grid-area: prev3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.prev4 {
+  grid-area: prev4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.prev5 {
+  grid-area: prev5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.lastUpdate {
+  grid-area: lastUpdate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  white-space: nowrap;
+}
+
+.css-selector {
+  background: linear-gradient(270deg, #f03622, #ead6d4);
+  background-size: 400% 400%;
+
+  -webkit-animation: danger-anim 3s ease infinite;
+  -moz-animation: danger-anim 3s ease infinite;
+  animation: danger-anim 3s ease infinite;
+}
+
+@-webkit-keyframes danger-anim {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes danger-anim {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes danger-anim {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }

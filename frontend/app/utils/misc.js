@@ -137,3 +137,5 @@ export const trendConfiguration = {
     color: '#cc3300',
   }
 }
+
+export const getTrend = constant => trendConfiguration[constant] ?? trendConfiguration[''];
