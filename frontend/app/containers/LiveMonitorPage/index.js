@@ -8,18 +8,15 @@ import React, {
   useState,
   useEffect,
   Fragment,
-  useRef
 } from 'react';
-import {useAjaxData} from "../../utils/hooks";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {
   getBloodSugarRange,
   getTrend,
-  round,
-  trendConfiguration
 } from "../../utils/misc";
 import moment from "moment";
 import axiosInstance from "../../utils/axios";
+import useWebSocket, {ReadyState} from 'react-use-websocket';
 
 const key = 'live-monitor';
 
@@ -28,20 +25,29 @@ export function LiveMonitorPage({}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(false);
-  const [wsStatus, setWsStatus] = useState(false);
   const [intervalId, setIntervalId] = useState(false);
-  const socket = useRef(null);
 
-  useEffect(() => {
-    socket.current = new WebSocket('ws://localhost:3010');
-  }, []);
+  const {
+    readyState,
+  } = useWebSocket('ws://localhost:3010?appCode=secret_app_code', {
+    shouldReconnect: e => true,
+    reconnectAttempts: Number.MAX_VALUE,
+    reconnectInterval: 3000,
+    onMessage: e => {
+      const message = JSON.parse(e.data);
+
+      if (message.type === 'EVENT_CREATED' && message.data[0].typeId === 1) {
+        setData([message.data[0], ...data.slice(0,-1)])
+      }
+    }
+  });
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       setError(false);
       try {
-        const response = await axiosInstance.get('/event?limit=6');
+        const response = await axiosInstance.get('/event?limit=6&typeId=1');
         setData(response.data);
       } catch (e) {
         setError(true);
@@ -50,31 +56,6 @@ export function LiveMonitorPage({}) {
       setLoading(false);
     })()
   }, [])
-
-  useEffect(() => {
-    if (!data.length) return;
-
-    // Show a connected message when the WebSocket is opened.
-    socket.current.onopen = function(event) {
-      setWsStatus(true);
-    };
-
-    socket.current.onerror = function(error) {
-      setWsStatus(false);
-    };
-
-    socket.current.onmessage = function(event) {
-      console.log('MESSAGE RECEIVED:', event);
-      const message = JSON.parse(event.data);
-      console.log('data', data);
-      if (message.type === 'EVENT_CREATED' && message.data[0].typeId === 1) {
-        console.log([message.data[0], ...data.slice(0,-1)]);
-        setData([message.data[0], ...data.slice(0,-1)])
-      }
-    };
-
-    //return () => socket.close();
-  }, [data]);
 
   useEffect(() => {
     if (intervalId) clearInterval(intervalId);
@@ -92,6 +73,14 @@ export function LiveMonitorPage({}) {
     </div>
   }
 
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: 'Connecting',
+    [ReadyState.OPEN]: 'Open',
+    [ReadyState.CLOSING]: 'Closing',
+    [ReadyState.CLOSED]: 'Closed',
+    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+  }[readyState];
+
   if (data.length && !error && !loading) {
     content = <Fragment>
       <div className="grid-container h-100">
@@ -106,6 +95,7 @@ export function LiveMonitorPage({}) {
         <div className="lastUpdate">
           <i className='fas fa-clock' />
           <span>{lastUpdate}</span>
+          <span>{connectionStatus}</span>
         </div>
       </div>
     </Fragment>

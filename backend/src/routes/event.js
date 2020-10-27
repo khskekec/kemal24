@@ -10,7 +10,15 @@ const router = new Router();
 router.use(authentication);
 
 router.get('/', async ctx => {
+    const allowedFilterParams = Object.keys(ctx.db().Event.rawAttributes);
+
     const data = await ctx.db().Event.findAll({
+        where: Object.keys(ctx.query)
+            .filter(key => allowedFilterParams.includes(key))
+            .reduce((obj, key) => {
+                obj[key] = ctx.query[key];
+                return obj;
+            }, {}),
         include: ctx.db().EventType,
         order: ctx.db().sequelize.literal('start desc'),
         limit: parseInt(ctx.query.limit) || 500,
@@ -52,7 +60,7 @@ router.post('/', async ctx => {
         }));
     }
 
-    ctx.eventBus.sendWs(eventCreated(responses));
+    ctx.ws.broadcast(eventCreated(responses));
 
     ctx.body = responses;
 });

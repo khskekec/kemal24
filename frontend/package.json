@@ -99,12 +99,14 @@
     "react-intl": "2.8.0",
     "react-redux": "7.2.1",
     "react-router-dom": "5.0.0",
+    "react-use-websocket": "^2.2.0",
     "recharts": "^1.8.5",
     "redux": "4.0.1",
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
-    "styled-components": "4.2.0"
+    "styled-components": "4.2.0",
+    "ws-heartbeat": "^1.1.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
