@@ -88,10 +88,10 @@ export function LiveMonitorPage({}) {
         <div className="tendency shadow-lg css-selector font-weight-bold">{getTrend(data[0].meta?.trend).text}</div>
         <div className="difference shadow-lg font-weight-bold">{data[0].value - data[1].value}</div>
         <div className={'prev1 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[5].value} {getTrend(data[5].meta?.trend).text}</div>
-        <div className={'prev2 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[4].value} {getTrend(data[4].meta?.trend).text}</div>
-        <div className={'prev3 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[3].value} {getTrend(data[3].meta?.trend).text}</div>
-        <div className={'prev4 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[2].value} {getTrend(data[2].meta?.trend).text}</div>
-        <div className={'prev5 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[1].value} {getTrend(data[1].meta?.trend).text}</div>
+        <div className={'prev2 font-weight-bold ' + getBloodSugarRange(data[4].value).fgClassname}>{data[4].value} {getTrend(data[4].meta?.trend).text}</div>
+        <div className={'prev3 font-weight-bold ' + getBloodSugarRange(data[3].value).fgClassname}>{data[3].value} {getTrend(data[3].meta?.trend).text}</div>
+        <div className={'prev4 font-weight-bold ' + getBloodSugarRange(data[2].value).fgClassname}>{data[2].value} {getTrend(data[2].meta?.trend).text}</div>
+        <div className={'prev5 font-weight-bold ' + getBloodSugarRange(data[1].value).fgClassname}>{data[1].value} {getTrend(data[1].meta?.trend).text}</div>
         <div className="lastUpdate">
           <i className='fas fa-clock' />
           <span>{lastUpdate}</span>
