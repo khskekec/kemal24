@@ -17,6 +17,7 @@ import {
 import moment from "moment";
 import axiosInstance from "../../utils/axios";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
+import classname from 'classnames';
 
 const key = 'live-monitor';
 
@@ -47,7 +48,7 @@ export function LiveMonitorPage({}) {
       setLoading(true);
       setError(false);
       try {
-        const response = await axiosInstance.get('/event?limit=6&typeId=1');
+        const response = await axiosInstance.get('/event?limit=300&typeId=1');
         setData(response.data);
       } catch (e) {
         setError(true);
@@ -59,6 +60,7 @@ export function LiveMonitorPage({}) {
 
   useEffect(() => {
     if (intervalId) clearInterval(intervalId);
+    if (!Array.isArray(data) || !data[0]) return;
     setIntervalId(setInterval(() => setLastUpdate(moment.utc(moment().diff(moment(data[0].start))).format("HH:mm:ss")), 1000));
   }, [data])
 
@@ -75,30 +77,51 @@ export function LiveMonitorPage({}) {
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
+    [ReadyState.OPEN]: 'Connected',
     [ReadyState.CLOSING]: 'Closing',
     [ReadyState.CLOSED]: 'Closed',
     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
   }[readyState];
 
-  if (data.length && !error && !loading) {
-    content = <Fragment>
-      <div className="grid-container h-100">
-        <div className={'value shadow-lg text-white font-weight-bold ' + getBloodSugarRange(data[0].value).classname}>{data[0].value}</div>
-        <div className="tendency shadow-lg css-selector font-weight-bold">{getTrend(data[0].meta?.trend).text}</div>
-        <div className="difference shadow-lg font-weight-bold">{data[0].value - data[1].value}</div>
-        <div className={'prev1 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[5].value} {getTrend(data[5].meta?.trend).text}</div>
-        <div className={'prev2 font-weight-bold ' + getBloodSugarRange(data[4].value).fgClassname}>{data[4].value} {getTrend(data[4].meta?.trend).text}</div>
-        <div className={'prev3 font-weight-bold ' + getBloodSugarRange(data[3].value).fgClassname}>{data[3].value} {getTrend(data[3].meta?.trend).text}</div>
-        <div className={'prev4 font-weight-bold ' + getBloodSugarRange(data[2].value).fgClassname}>{data[2].value} {getTrend(data[2].meta?.trend).text}</div>
-        <div className={'prev5 font-weight-bold ' + getBloodSugarRange(data[1].value).fgClassname}>{data[1].value} {getTrend(data[1].meta?.trend).text}</div>
-        <div className="lastUpdate">
-          <i className='fas fa-clock' />
-          <span>{lastUpdate}</span>
-          <span>{connectionStatus}</span>
-        </div>
-      </div>
+  if (readyState !== ReadyState.OPEN) {
+    return <Fragment>
+      <div>{connectionStatus}</div>
     </Fragment>
+  }
+
+  if (data.length && !error && !loading) {
+    // content = <Fragment>
+    //   <div className="grid-container h-100">
+    //     <div className={'value shadow-lg text-white font-weight-bold ' + getBloodSugarRange(data[0].value).classname}>{data[0].value}</div>
+    //     <div className="tendency shadow-lg css-selector font-weight-bold">{getTrend(data[0].meta?.trend).text}</div>
+    //     <div className="difference shadow-lg font-weight-bold">{data[0].value - data[1].value}</div>
+    //     <div className={'prev1 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[5].value} {getTrend(data[5].meta?.trend).text}</div>
+    //     <div className={'prev2 font-weight-bold ' + getBloodSugarRange(data[4].value).fgClassname}>{data[4].value} {getTrend(data[4].meta?.trend).text}</div>
+    //     <div className={'prev3 font-weight-bold ' + getBloodSugarRange(data[3].value).fgClassname}>{data[3].value} {getTrend(data[3].meta?.trend).text}</div>
+    //     <div className={'prev4 font-weight-bold ' + getBloodSugarRange(data[2].value).fgClassname}>{data[2].value} {getTrend(data[2].meta?.trend).text}</div>
+    //     <div className={'prev5 font-weight-bold ' + getBloodSugarRange(data[1].value).fgClassname}>{data[1].value} {getTrend(data[1].meta?.trend).text}</div>
+    //     <div className="lastUpdate">
+    //       <i className='fas fa-clock' />
+    //       <span>{lastUpdate}</span>
+    //       <span>{connectionStatus}</span>
+    //     </div>
+    //   </div>
+    // </Fragment>;
+
+    const lastDifference = data[0].value - data[1].value;
+    content = <div className='container-fluid h-100'>
+      <div className={classname( 'pr-3', 'row', 'h-5', 'justify-content-end','align-items-center', getBloodSugarRange(data[0].value).classname)}>
+        <div className='badge bg-white text-black-50 col-auto'><i className='fa fa-satellite'></i> {connectionStatus}</div>&nbsp;
+        <div className='badge bg-white text-black-50 col-auto'><i className='fas fa-clock'></i> {lastUpdate}</div>
+      </div>
+      <div className={classname('row', 'h-45', 'justify-content-center','align-items-center',getBloodSugarRange(data[0].value).classname)}>
+        <div className='col-3 text-center font-weight-bold text-white text-size-2'>{(lastDifference > 0 ? '+' : null) + lastDifference}</div>
+        <div className='col-6 text-center font-weight-bold text-white text-size-5'>{data[0].value}</div>
+        <div className='col-3 text-center font-weight-bold text-white text-size-2'>{getTrend(data[0].meta?.trend).text}</div>
+      </div>
+      <div className='row h-45 bg-warning'>c</div>
+      <div className='row h-5 bg-info'>c</div>
+    </div>
   }
 
   return (
