@@ -48,31 +48,19 @@ router.get('/', async ctx => {
 
 router.get('/daily-avg', async ctx => {
     console.log(ctx.query);
-    ctx.body = await avg('DATE_FORMAT(Events.start, \'%Y-%m-%d\')', ctx.db, ctx.query.start, ctx.query.end);
+    ctx.body = await avg('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')', ctx.db, ctx.query.start, ctx.query.end);
 });
 
 router.get('/hourly-avg', async ctx => {
-    ctx.body = await avg('DATE_FORMAT(Events.start, \'%H\')', ctx.db, ctx.query.start, ctx.query.end);
+    ctx.body = await avg('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%H\')', ctx.db, ctx.query.start, ctx.query.end);
 });
 
 router.get('/daily-hourly-avg', async ctx => {
-    ctx.body = await avg('DATE_FORMAT(Events.start, \'%Y-%m-%d %H:00:00\')', ctx.db, ctx.query.start, ctx.query.end);
+    ctx.body = await avg('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d %H:00:00\')', ctx.db, ctx.query.start, ctx.query.end);
 });
 
 const avg = async (groupingEval, db, start, end) => {
     const groupingKey = db().knex.raw(groupingEval);
-
-    const conditions = {
-        'EventTypes.constant': 'BLOOD_SUGAR',
-    };
-
-    if (start) {
-        conditions.start = moment(start).toISOString();
-    }
-
-    if (end) {
-        conditions.end = moment(end).toISOString();
-    }
 
     const response = await db().knex('Events')
         .innerJoin('EventTypes', 'EventTypes.id', 'Events.typeId')
@@ -80,16 +68,19 @@ const avg = async (groupingEval, db, start, end) => {
             builder.where('EventTypes.constant', 'BLOOD_SUGAR');
 
             if (start) {
-                builder.andWhere('start', '>=', start);
+                    builder.andWhere(db().knex.raw('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')'), '>=', start);
             }
 
             if (end) {
-                builder.andWhere('end', '<=', end);
+                builder.andWhere(db().knex.raw('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')'), '<', end);
             }
         })
         .orderBy(groupingKey, 'asc')
         .groupBy(groupingKey)
-        .select([db().knex.raw('AVG(value) as avg'), db().knex.raw(groupingEval + ' as point')]);
+        .select([
+            db().knex.raw('ROUND(AVG(value), 2) as avg'),
+            db().knex.raw(groupingEval + ' as point')
+        ]);
 
     return response;
 }

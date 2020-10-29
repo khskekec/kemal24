@@ -60,6 +60,7 @@ const CorrectionBolus = () => {
 
   const bolusType = watch('bolusType');
   const realCurrentBloodSugar = watch('realCurrentBloodSugar');
+  const bolus = watch('bolus');
   const correctionBolus = calculateOriginalCorrection();
   const noCorrectionRequired = correctionBolus <= 0;
   const isAutomatic = bolusType === 'automatic';
@@ -133,7 +134,7 @@ const CorrectionBolus = () => {
           </div>
           <div className={ classnames('mb-4', { 'd-none': isAutomatic }) }>
             <label htmlFor="bolus" className="form-label">Bolus</label>
-            <input type="number" step=".01" className="form-control" id="bolus" name='bolus' ref={register()} disabled={noCorrectionRequired} />
+            <input type="number" step=".01" className="form-control" id="bolus" name='bolus' ref={register()} />
           </div>
           <div className={ classnames('mb-4', 'alert', 'alert-info', 'd-none', { 'd-block': noCorrectionRequired && !isAutomatic}) }>
             You cannot enter a manual bolus because there is no need for a correction for the given blood sugar value
@@ -146,7 +147,7 @@ const CorrectionBolus = () => {
             <textarea className="form-control" id="description" name='description' ref={register()}/>
         </div>
         <div className='card-footer'>
-          <button className='btn btn-primary btn-block' disabled={noCorrectionRequired || isLoading}>Create</button>
+          <button className='btn btn-primary btn-block' disabled={!bolus && (noCorrectionRequired || isLoading)}>Create</button>
         </div>
       </div>
     </form>
