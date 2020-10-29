@@ -48,6 +48,9 @@ const BloodSugarPage = () => {
         <div className='col-6 col-md mt-4'>
           <RoutingNavItem title='Time in Range' icon={<Icon iconClass='fa-check'/>} targetUrl='/blood-sugar/time-in-range'/>
         </div>
+        <div className='col-6 col-md mt-4'>
+          <RoutingNavItem title='Diary' icon={<Icon iconClass='fa-check'/>} targetUrl='/blood-sugar/diary'/>
+        </div>
       </div>
     </div>
   </div>

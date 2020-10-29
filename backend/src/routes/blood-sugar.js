@@ -82,7 +82,64 @@ const avg = async (groupingEval, db, start, end) => {
             db().knex.raw(groupingEval + ' as point')
         ]);
 
-    return response;
+    const correctionBolus = await db().knex('Events')
+        .innerJoin('EventTypes', 'EventTypes.id', 'Events.typeId')
+        .where(builder => {
+            builder.where('EventTypes.constant', 'CORRECTION_BOLUS');
+
+            if (start) {
+                builder.andWhere(db().knex.raw('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')'), '>=', start);
+            }
+
+            if (end) {
+                builder.andWhere(db().knex.raw('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')'), '<', end);
+            }
+        })
+        .orderBy(groupingKey, 'asc')
+        .groupBy(groupingKey)
+        .select([
+            db().knex.raw('ROUND(SUM(value), 2) as avg'),
+            db().knex.raw(groupingEval + ' as point')
+        ]);
+
+    const bolus = await db().knex('Events')
+        .innerJoin('EventTypes', 'EventTypes.id', 'Events.typeId')
+        .where(builder => {
+            builder.where('EventTypes.constant', 'BOLUS');
+
+            if (start) {
+                builder.andWhere(db().knex.raw('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')'), '>=', start);
+            }
+
+            if (end) {
+                builder.andWhere(db().knex.raw('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d\')'), '<', end);
+            }
+        })
+        .orderBy(groupingKey, 'asc')
+        .groupBy(groupingKey)
+        .select([
+            db().knex.raw('ROUND(SUM(value), 2) as avg'),
+            db().knex.raw(groupingEval + ' as point')
+        ]);
+
+    const res = response.map(bloodSugar => {
+        let res = null;
+        bloodSugar['correction'] = bloodSugar['bolus'] = 0;
+
+        res = correctionBolus.filter(e => e.point === bloodSugar.point)
+        if (res.length) {
+            bloodSugar['correction'] = res[0].avg;
+        }
+
+        res = bolus.filter(e => e.point === bloodSugar.point);
+        if (res.length) {
+            bloodSugar['bolus'] = res[0].avg;
+        }
+
+        return bloodSugar;
+    })
+
+    return res;
 }
 
 export default mainRouter => {
