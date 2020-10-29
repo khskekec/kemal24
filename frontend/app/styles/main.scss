@@ -166,3 +166,10 @@
   max-height: 45% !important;
   height: 45% !important;
 }
+
+.day-report {
+  table td, table th {
+    padding: 3px;
+    white-space: nowrap !important;
+  }
+}
