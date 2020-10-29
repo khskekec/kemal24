@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { actions } from '../containers/App/redux';
 import configureStore from '../configureStore';
+import config from '../config';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3010/api/v1/',
+  baseURL: `${config.backend}/api/v1/`,
   timeout: 20000,
   withCredentials: true,
 });

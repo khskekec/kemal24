@@ -18,7 +18,7 @@ import moment from "moment";
 import axiosInstance from "../../utils/axios";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 import classname from 'classnames';
-
+import config from '../../config';
 const key = 'live-monitor';
 
 export function LiveMonitorPage({}) {
@@ -30,7 +30,7 @@ export function LiveMonitorPage({}) {
 
   const {
     readyState,
-  } = useWebSocket('ws://localhost:3010?appCode=secret_app_code', {
+  } = useWebSocket(config.webSocket, {
     shouldReconnect: e => true,
     reconnectAttempts: Number.MAX_VALUE,
     reconnectInterval: 3000,
