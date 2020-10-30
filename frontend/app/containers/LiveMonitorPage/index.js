@@ -91,7 +91,8 @@ export function LiveMonitorPage({}) {
     </Fragment>
   }
 
-  if (data.length && !error && !loading) {
+  if (Array.isArray(data) && !error && !loading) {
+    const bloodSugarEvents = data.filter(e => e.typeId === 1);
     // content = <Fragment>
     //   <div className="grid-container h-100">
     //     <div className={'value shadow-lg text-white font-weight-bold ' + getBloodSugarRange(data[0].value).classname}>{data[0].value}</div>
@@ -110,19 +111,21 @@ export function LiveMonitorPage({}) {
     //   </div>
     // </Fragment>;
 
-    const lastDifference = data[0].value - data[1].value;
+    const lastDifference = bloodSugarEvents.length ? bloodSugarEvents[0].value - bloodSugarEvents[1].value : 'n/a';
+
+    const getLatestBloodSugarValue = () => bloodSugarEvents.length ? bloodSugarEvents[0].value : 'n/a'
     content = <div className='container-fluid h-100'>
-      <div className={classname( 'pr-3', 'row', 'h-5', 'justify-content-end','align-items-center', getBloodSugarRange(data[0].value).classname)}>
+      <div className={classname( 'pr-3', 'row', 'h-5', 'justify-content-end','align-items-center', 'bg-danger', bloodSugarEvents[0] ? getBloodSugarRange(getLatestBloodSugarValue()).classname : null)}>
         <div className='badge bg-white text-black-50 col-auto'><i className='fa fa-satellite'></i> {connectionStatus}</div>&nbsp;
         <div className='badge bg-white text-black-50 col-auto'><i className='fas fa-clock'></i> {lastUpdate}</div>
       </div>
-      <div className={classname('row', 'h-45', 'justify-content-center','align-items-center',getBloodSugarRange(data[0].value).classname)}>
+      <div className={classname('row', 'h-45', 'justify-content-center','align-items-center', 'bg-danger',bloodSugarEvents[0] ? getBloodSugarRange(getLatestBloodSugarValue()).classname : null)}>
         <div className='col-3 text-center font-weight-bold text-white text-size-2'>{(lastDifference > 0 ? '+' : null) + lastDifference}</div>
-        <div className='col-6 text-center font-weight-bold text-white text-size-5'>{data[0].value}</div>
-        <div className='col-3 text-center font-weight-bold text-white text-size-2'>{getTrend(data[0].meta?.trend).text}</div>
+        <div className='col-6 text-center font-weight-bold text-white text-size-5'>{getLatestBloodSugarValue()}</div>
+        <div className='col-3 text-center font-weight-bold text-white text-size-2'>{bloodSugarEvents[0] ? getTrend(bloodSugarEvents[0].meta?.trend).text : 'n/a'}</div>
       </div>
       <div className='row h-45 bg-warning'>
-        <Chart events={data} xValue='start' yValue='value' />
+        <Chart events={bloodSugarEvents} xValue='start' yValue='value' />
       </div>
       <div className='row h-5 bg-info'>c</div>
     </div>
