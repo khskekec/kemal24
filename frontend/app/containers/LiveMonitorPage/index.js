@@ -124,7 +124,7 @@ export function LiveMonitorPage({}) {
         <div className='col-6 text-center font-weight-bold text-white text-size-5'>{getLatestBloodSugarValue()}</div>
         <div className='col-3 text-center font-weight-bold text-white text-size-2'>{bloodSugarEvents[0] ? getTrend(bloodSugarEvents[0].meta?.trend).text : 'n/a'}</div>
       </div>
-      <div className='row h-45 bg-warning'>
+      <div className='row h-45' style={{backgroundColor: '#f0f0f0'}}>
         <Chart events={bloodSugarEvents} xValue='start' yValue='value' />
       </div>
       <div className='row h-5 bg-info'>c</div>

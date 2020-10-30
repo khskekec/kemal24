@@ -41,14 +41,15 @@ const Chart = ({events, xValue, yValue}) => {
         mirror
         axisLine={false}
         orientation='right'
+        tickLine={false}
       />
       <Tooltip content={'asd'} formatter={(value, name, props) => ([value, null])}
                itemStyle={{textAlign: 'center', fontWeight: 'bold'}}
                labelFormatter={e => moment(e).local().format('DD.MM HH:mm:ss')}
      />
-      <ReferenceLine y={200} stroke="red" strokeWidth={2}/>
-      <ReferenceLine y={100} stroke="green" strokeWidth={2}/>
-      <ReferenceLine y={70} stroke="red" strokeWidth={2}/>
+      <ReferenceLine y={200} stroke="red" strokeWidth={0.5}/>
+      <ReferenceLine y={100} stroke="green" strokeWidth={0.5}/>
+      <ReferenceLine y={70} stroke="red" strokeWidth={0.5}/>
       <Line type="monotone" dataKey={yValue} dot={false} stroke="black" strokeWidth={3}/>
       {/*<Line type="monotone" dataKey='bolus' stroke="#8884d8"/>*/}
       {/*<Line type="monotone" dataKey='correction' stroke="#8884d8"/>*/}
