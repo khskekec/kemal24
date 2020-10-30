@@ -19,6 +19,8 @@ import axiosInstance from "../../utils/axios";
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 import classname from 'classnames';
 import config from '../../config';
+import MainChart from "../BloodSugarPage/components/MainChart";
+import Chart from "./Chart";
 const key = 'live-monitor';
 
 export function LiveMonitorPage({}) {
@@ -48,7 +50,7 @@ export function LiveMonitorPage({}) {
       setLoading(true);
       setError(false);
       try {
-        const response = await axiosInstance.get('/event?limit=300&typeId=1');
+        const response = await axiosInstance.get('/event?liveMonitor=1');
         setData(response.data);
       } catch (e) {
         setError(true);
@@ -119,7 +121,9 @@ export function LiveMonitorPage({}) {
         <div className='col-6 text-center font-weight-bold text-white text-size-5'>{data[0].value}</div>
         <div className='col-3 text-center font-weight-bold text-white text-size-2'>{getTrend(data[0].meta?.trend).text}</div>
       </div>
-      <div className='row h-45 bg-warning'>c</div>
+      <div className='row h-45 bg-warning'>
+        <Chart events={data} xValue='start' yValue='value' />
+      </div>
       <div className='row h-5 bg-info'>c</div>
     </div>
   }

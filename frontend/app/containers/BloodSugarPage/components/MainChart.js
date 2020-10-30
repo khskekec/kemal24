@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, ReferenceLine, ReferenceArea} from 'recharts';
-import BaseTable, {
-  AutoResizer,
-  Column
-} from "react-base-table";
+import {ComposedChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line, ReferenceLine, ReferenceArea} from 'recharts';
+import {AutoResizer} from "react-base-table";
+
 class CustomizedDot extends React.Component {
   render() {
     const {cx, cy, stroke, payload, value} = this.props;
@@ -27,20 +25,28 @@ class CustomizedDot extends React.Component {
   }
 };
 
+const MyLabel = () => <span>asdasd</span>;
 const MainChart = ({events, xValue, yValue}) => {
-
+  console.log(events ? events.length : null);
   return <AutoResizer>
     {({ width, height }) => (
-    <LineChart width={width} height={height} data={events}>
-      <CartesianGrid strokeDasharray="3 3"/>
-      <XAxis dataKey={xValue}/>
-      <YAxis dataKey={yValue}/>
-      <Tooltip/>
-      <Legend/>
-      <ReferenceArea x1={0} y1={200} stroke="red" strokeOpacity={0.3} label="HIGH" style={{fill: 'red'}}/>
-      <ReferenceArea x1={0} y2={60} stroke="red" strokeOpacity={0.3} label="LOW" style={{fill: 'red'}}/>
-      <Line type="monotone" dataKey={yValue} stroke="#8884d8"/>
-    </LineChart>)}
+    <ComposedChart width={width} height={height} data={events} syncId="anyId"
+               margin={{
+                 top: 10, right: 30, left: -30, bottom: 0,
+               }} style={{fill: 'yellow', backGroundColor: 'yellow'}}>
+      <CartesianGrid vertical={false} horizontal={false} fill={'#03adfc'}/>
+      <XAxis dataKey={xValue} height={50}  domain={[50, 'auto']} orientation='bottom'/>
+      <YAxis dataKey={yValue} domain={[50, 'auto']}/>
+      <Tooltip />
+      <ReferenceLine y={200} stroke="red" strokeWidth={2} />
+      <ReferenceLine y={100} stroke="green" strokeWidth={2}/>
+      <ReferenceLine y={70}  stroke="red" strokeWidth={2} />
+      <Line type="monotone" dataKey='avg' stroke="black" strokeWidth={3} />
+      {/*<Line type="monotone" dataKey='bolus' stroke="#8884d8"/>*/}
+      {/*<Line type="monotone" dataKey='correction' stroke="#8884d8"/>*/}
+      <ReferenceArea x1={150} x2={180} y1={200} y2={300} stroke="red" strokeOpacity={0.3} />
+      <ReferenceArea x1={150} x2={180} y1={200} y2={300} stroke="red" strokeOpacity={0.3} />
+    </ComposedChart>)}
   </AutoResizer>
 };
 

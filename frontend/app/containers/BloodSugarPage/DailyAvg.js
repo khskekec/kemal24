@@ -18,7 +18,7 @@ const DailyAvg = () => {
 
   const getData = async () => setData((await axios.get('/bloodsugar/daily-avg', {params: dateRange})).data);
 
-  return <div className='h-100 w-100'>
+  return <div className='h-50 w-100'>
     <FixedDateRangePicker />
     <div className='p-3 h-100 w-100' style={{fontSize: '0.7rem'}}>
       <MainChart events={data} xValue='point' yValue='avg'/>

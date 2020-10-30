@@ -173,3 +173,21 @@
     white-space: nowrap !important;
   }
 }
+
+.recharts-cartesian-axis-tick-value {
+  font-size: 0.7rem;
+  font-weight: bold;
+  z-index: 9999;
+  fill: black;
+}
+
+.recharts-default-tooltip {
+  @extend .card;
+  font-size: 0.8rem;
+}
+
+.recharts-cartesian-grid-horizontal line {
+  stroke:#c4c4c0;
+  stroke-width: 2;
+  padding-right:10px;
+}
