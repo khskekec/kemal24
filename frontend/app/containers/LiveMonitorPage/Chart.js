@@ -46,6 +46,7 @@ const Chart = ({events, xValue, yValue}) => {
       <Tooltip content={'asd'} formatter={(value, name, props) => ([value, null])}
                itemStyle={{textAlign: 'center', fontWeight: 'bold'}}
                labelFormatter={e => moment(e).local().format('DD.MM HH:mm:ss')}
+               coordinate={{ x: 100, y: 140 }} offset={100}
      />
       <ReferenceLine y={200} stroke="red" strokeWidth={0.5}/>
       <ReferenceLine y={100} stroke="green" strokeWidth={0.5}/>

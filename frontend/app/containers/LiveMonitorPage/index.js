@@ -23,12 +23,22 @@ import MainChart from "../BloodSugarPage/components/MainChart";
 import Chart from "./Chart";
 const key = 'live-monitor';
 
+const LastChanges = ({data}) => {
+  const [intervalId, setIntervalId] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(false);
+  useEffect(() => {
+    if (intervalId) clearInterval(intervalId);
+    if (!Array.isArray(data) || !data[0]) return;
+    setIntervalId(setInterval(() => setLastUpdate(moment.utc(moment().diff(moment(data[0].start))).format("HH:mm:ss")), 1000));
+  }, [data])
+
+  return lastUpdate;
+}
+
 export function LiveMonitorPage({}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState(false);
-  const [intervalId, setIntervalId] = useState(false);
 
   const {
     readyState,
@@ -60,12 +70,6 @@ export function LiveMonitorPage({}) {
     })()
   }, [])
 
-  useEffect(() => {
-    if (intervalId) clearInterval(intervalId);
-    if (!Array.isArray(data) || !data[0]) return;
-    setIntervalId(setInterval(() => setLastUpdate(moment.utc(moment().diff(moment(data[0].start))).format("HH:mm:ss")), 1000));
-  }, [data])
-
   let content = null;
   if (loading) {
     content = <LoadingIndicator/>
@@ -93,31 +97,13 @@ export function LiveMonitorPage({}) {
 
   if (Array.isArray(data) && !error && !loading) {
     const bloodSugarEvents = data.filter(e => e.typeId === 1);
-    // content = <Fragment>
-    //   <div className="grid-container h-100">
-    //     <div className={'value shadow-lg text-white font-weight-bold ' + getBloodSugarRange(data[0].value).classname}>{data[0].value}</div>
-    //     <div className="tendency shadow-lg css-selector font-weight-bold">{getTrend(data[0].meta?.trend).text}</div>
-    //     <div className="difference shadow-lg font-weight-bold">{data[0].value - data[1].value}</div>
-    //     <div className={'prev1 font-weight-bold ' + getBloodSugarRange(data[5].value).fgClassname}>{data[5].value} {getTrend(data[5].meta?.trend).text}</div>
-    //     <div className={'prev2 font-weight-bold ' + getBloodSugarRange(data[4].value).fgClassname}>{data[4].value} {getTrend(data[4].meta?.trend).text}</div>
-    //     <div className={'prev3 font-weight-bold ' + getBloodSugarRange(data[3].value).fgClassname}>{data[3].value} {getTrend(data[3].meta?.trend).text}</div>
-    //     <div className={'prev4 font-weight-bold ' + getBloodSugarRange(data[2].value).fgClassname}>{data[2].value} {getTrend(data[2].meta?.trend).text}</div>
-    //     <div className={'prev5 font-weight-bold ' + getBloodSugarRange(data[1].value).fgClassname}>{data[1].value} {getTrend(data[1].meta?.trend).text}</div>
-    //     <div className="lastUpdate">
-    //       <i className='fas fa-clock' />
-    //       <span>{lastUpdate}</span>
-    //       <span>{connectionStatus}</span>
-    //     </div>
-    //   </div>
-    // </Fragment>;
-
     const lastDifference = bloodSugarEvents.length ? bloodSugarEvents[0].value - bloodSugarEvents[1].value : 'n/a';
 
     const getLatestBloodSugarValue = () => bloodSugarEvents.length ? bloodSugarEvents[0].value : 'n/a'
     content = <div className='container-fluid h-100'>
       <div className={classname( 'pr-3', 'row', 'h-5', 'justify-content-end','align-items-center', 'bg-danger', bloodSugarEvents[0] ? getBloodSugarRange(getLatestBloodSugarValue()).classname : null)}>
         <div className='badge bg-white text-black-50 col-auto'><i className='fa fa-satellite'></i> {connectionStatus}</div>&nbsp;
-        <div className='badge bg-white text-black-50 col-auto'><i className='fas fa-clock'></i> {lastUpdate}</div>
+        <div className='badge bg-white text-black-50 col-auto'><i className='fas fa-clock'></i> {<LastChanges data={data} />}</div>
       </div>
       <div className={classname('row', 'h-45', 'justify-content-center','align-items-center', 'bg-danger',bloodSugarEvents[0] ? getBloodSugarRange(getLatestBloodSugarValue()).classname : null)}>
         <div className='col-3 text-center font-weight-bold text-white text-size-2'>{(lastDifference > 0 ? '+' : null) + lastDifference}</div>
