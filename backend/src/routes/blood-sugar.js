@@ -59,7 +59,7 @@ router.get('/daily-hourly-avg', async ctx => {
     ctx.body = await avg('DATE_FORMAT(CONVERT_TZ( Events.start, \'UTC\', \'Europe/Berlin\' ), \'%Y-%m-%d %H:00:00\')', ctx.db, ctx.query.start, ctx.query.end);
 });
 
-const avg = async (groupingEval, db, start, end) => {
+export const avg = async (groupingEval, db, start, end) => {
     const groupingKey = db().knex.raw(groupingEval);
 
     const response = await db().knex('Events')
