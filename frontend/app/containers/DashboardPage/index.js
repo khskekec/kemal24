@@ -5,11 +5,8 @@
  */
 
 import React, {
-  Fragment,
-  useState
+  Fragment
 } from 'react';
-import PropTypes from 'prop-types';
-import {Helmet} from 'react-helmet';
 import Widget from "./components/Widget";
 import {useAjaxData} from "../../utils/hooks";
 import MainChart from "../BloodSugarPage/components/MainChart";
@@ -40,7 +37,6 @@ export function DashboardPage({}) {
 
   if (isLoading) return "";
 
-  console.log(getData());
   const summed = Object.values(getData().col).reduce((a,b) => a+b, 0)
 
   const perc = val => round(100 / summed * val);
@@ -52,7 +48,7 @@ export function DashboardPage({}) {
       </div>
       <div className="container-fluid pt-3">
         <div className="row">
-          <div className='col-6 col-md-4 mb-3'>
+          <div className='col-12 col-md-4 mb-3'>
             <Widget title='Current'
                     value={getData().bloodSugar.newest.value}
                     icon={<i className='fa fa-tint'/>}
@@ -60,7 +56,7 @@ export function DashboardPage({}) {
                     lastScan='10 minutes ago'
             />
           </div>
-          <div className='col-6 col-md-4 mb-3'>
+          <div className='col-12 col-md-4 mb-3'>
             <Widget title='Average today'
                     value={getData().bloodSugar.average}
                     icon={<i className='fa fa-tint'/>}
@@ -70,6 +66,9 @@ export function DashboardPage({}) {
           </div>
           <div className='col-12 col-md-4 mb-3'>
             <div className='card'>
+              <div className='card-header'>
+                Hours in range
+              </div>
               <div className='card-body d-flex'>
                 <div className='col-4 text-center'>
                   <h3>{msToTime(getData().col.below)}</h3>
