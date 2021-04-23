@@ -104,7 +104,7 @@ router.get("/currentPanel", async (ctx) => {
 
   const level = (response[1].value - response[0].value) * -1;
 
-  const panelResponse = `${response[0].value}${
+  const panelResponse = `${response[0].value}:${
     trendConfiguration[trend]["text"]
   }:${level}:${duration.asMinutes().toFixed(2)}m:${
     getBloodSugarRange(response[0].value)["color"]
@@ -315,4 +315,3 @@ export default (mainRouter) => {
     router.allowedMethods({ throw: true })
   );
 };
-
