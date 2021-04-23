@@ -102,7 +102,13 @@ router.get("/currentPanel", async (ctx) => {
     },
   };
 
-  const level = (response[1].value - response[0].value) * -1;
+  let level = (response[1].value - response[0].value) * -1;
+
+  if (level == 0) {
+    level = "+/-" + level;
+  } else if (level > 0) {
+    level = "+" + level;
+  }
 
   const panelResponse = `${response[0].value}:${
     trendConfiguration[trend]["text"]
